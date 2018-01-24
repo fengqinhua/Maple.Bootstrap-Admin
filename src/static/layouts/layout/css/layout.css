@@ -1,0 +1,60 @@
+/**
+处理整个页面布局的样式表
+**/
+html, body {
+    height: auto; 
+    min-height: 100%;
+    background-color: white;
+}
+/* 顶部 */
+.navbar {
+    border-width: 0;
+    border-radius: 0;
+}
+
+.navbar-inner {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 30px;
+    height: 60px;
+}
+
+.navbar-brand {
+    padding: 16px 15px;
+    width: 260px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-brand img {
+    float: left;
+    height: 20px;
+    width: 20px;
+    margin-right: 5px;
+}
+
+.navbar-brand span {
+    float: left;
+}
+
+
+/* 菜单 */
+.page-menu {
+    min-height: 0;
+    box-shadow: 0 0 10px #BDBDBD;
+    border-radius: 5px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    max-height: none;
+}
+
+/* 表单 */
+.page-toolbar{
+    margin-bottom: 15px;
+}
+
+/* 底部 */
+ 

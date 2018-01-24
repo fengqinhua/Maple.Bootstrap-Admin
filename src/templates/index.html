@@ -1,22 +1,344 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Maple.ZUI-Admin</title>
-    <!-- 第三方组件样式 -->
-    <link href="../static/global/zui/css/zui.min.css" rel="stylesheet">
-  </head>
-  <body>
-    <h1>Maple.ZUI-Admin</h1>
-    <!-- 在此处编码你的创意 --> 
 
-    <!-- 依赖的第三方JS组件 -->
-    <script src="../static/global/jquery/jquery.js"></script>
-    <script src="../static/global/zui/js/zui.min.js"></script>
-    
-    <!-- 自定义的JS组件 -->
-    <script src="../static/layouts/layout/js/layout.js"></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maple.ZUI-Admin</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta content="" name="description" />
+  <meta content="fengqinhua2016@163.com" name="author" />
+  <!-- 第三方组件样式 -->
+  <link href="../static/global/plugins/zui/css/zui.min.css" rel="stylesheet">
+  <link href="../static/global/plugins/zui/theme/blue.css" rel="stylesheet">
+  <!-- 自定义的CSS组件 -->
+  <link href="../static/layouts/layout/css/layout.css" rel="stylesheet">
+  <!-- 网页图标 -->
+  <link rel="shortcut icon" href="../favicon.ico" />
+  <!--[if lt IE 9]>
+        <script src="../static/global/plugins/ieonly/html5shiv.js"></script>
+        <script src="../static/global/plugins/ieonly/respond.js"></script>
+        <script src="../static/global/plugins/ieonly/excanvas.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <noscript>
+    <div style="position: absolute; z-index: 100000; height: 2046px; top: 0px; left: 0px;
+                width: 100%; background: white; text-align: center;">
+      <img src="../static/global/img/noscript.gif" alt='抱歉，请开启脚本支持！' />
+    </div>
+  </noscript>
+  <!--[if lt IE 8]>
+    <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+  <![endif]-->
+  <!-- 顶部 -->
+  <div class="navbar navbar-default" role="navigation">
+    <div class="navbar-inner">
+      <a class="navbar-brand" href="index.html">
+        <img alt="Maple Logo" src="../static/layouts/layout/img/logo64.png" class="hidden-xs">
+        <span>Maple.ZUI-Admin</span>
+      </a>
+      <ul class="collapse navbar-collapse nav navbar-nav top-menu pull-right">
+        <li>
+          <a href="javascript:;">
+            <span>
+              <i class="icon icon-bell-alt"></i>
+              <span class="label label-danger label-pill up">5</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="javascript:;">
+            <span>
+              <i class="icon icon-envelope-alt"></i>
+              <span class="label label-success label-pill up">2</span>
+            </span>
+          </a>
+        </li>
+        <li class="dropdown">
+          <a href="javascript:;" data-toggle="dropdown">
+            <i class="icon icon-user"></i> 管理员
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu pull-right">
+            <li>
+              <a href="#">个人信息</a>
+            </li>
+            <li>
+              <a href="#">修改密码</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <a href="#">安全退出</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <!-- 内容 -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2 col-lg-2">
+        <div class="page-menu">
+          <nav class="menu" data-ride="menu">
+            <ul id="treeMenu" class="tree tree-menu" data-ride="tree">
+              <li>
+                <a href="#">
+                  <i class="icon icon-th"></i>系统首页</a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="icon icon-cog"></i>常用页面</a>
+                <ul>
+                  <li>
+                    <a href="#">空白页</a>
+                  </li>
+                  <li>
+                    <a href="#">登录</a>
+                  </li>
+                  <li>
+                    <a href="#">404错误</a>
+                  </li>
+                  <li>
+                    <a href="#">系统设置</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="open">
+                <a href="#">
+                  <i class="icon icon-time"></i>组件示例</a>
+                <ul>
+                  <li class="active">
+                    <a href="#">列表页面1</a>
+                  </li>
+                  <li>
+                    <a href="#">列表页面2</a>
+                  </li>
+                  <li>
+                    <a href="#">表单页面1</a>
+                  </li>
+                  <li>
+                    <a href="#">表单页面2</a>
+                  </li>
+                  <li>
+                    <a href="#">弹出窗体</a>
+                  </li>
+                  <li>
+                    <a href="#">系统提示</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="open">
+                <a href="#">
+                  <i class="icon icon-tasks"></i>多级菜单</a>
+                <ul>
+                  <li>
+                    <a href="#">
+                      <i class="icon icon-circle-blank"></i>第二级1</a>
+                    <ul>
+                      <li>
+                        <a href="#">第三级1</a>
+                      </li>
+                      <li>
+                        <a href="#">第三级2</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="icon icon-play-sign"></i>第二级2</a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="icon icon-ok-sign"></i>第二级3</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div class="col-lg-10 col-sm-10">
+        <div class="page-content container-fluid">
+          <!-- 面包屑 -->
+          <ul class="breadcrumb breadcrumb-diy">
+            <li>
+              <a href="#">系统首页</a>
+            </li>
+            <li class="active">列表页面1</li>
+          </ul>
+          <!-- 查询面板 -->
+          <div class="panel panel-default">
+            <div class="panel-heading">查询条件</div>
+            <div class="panel-body">
+              <form id="formSearch" class="form-horizontal">
+                <div class="form-group">
+                  <label class="control-label col-sm-1" for="txt_search_code">单号</label>
+                  <div class="col-sm-3">
+                    <input type="text" class="form-control" id="txt_search_code">
+                  </div>
+                  <label class="control-label col-sm-1" for="txt_search_softName">年度</label>
+                  <div class="col-sm-3">
+                    <select id="txt_search_year" class="form-control  chosen-select">
+                      <option value=""></option>
+                    </select>
+                  </div>
+                  <div class="col-sm-4">
+                    <button type="button" id="btn_query" class="btn btn-default">查 询</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- 操作区域 -->
+          <div class="page-toolbar">
+              <div class="tools-group">
+                  <a href="#" class="btn btn-primary"><i class="icon icon-plus-sign"></i> 新增</a>
+                  <a href="#" class="btn btn-success"><i class="icon icon-check-circle"></i> 启用</a>
+                  <a href="#" class="btn btn-warning"><i class="icon icon-ban-circle"></i> 禁用</a>
+                  <a href="#" class="btn btn-danger"><i class="icon icon-remove-sign"></i> 删除</a>
+              </div>
+          </div>
+          <!-- 表格区域 -->
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th width="30">
+                  <input type="checkbox">
+                </th>
+                <th width="50">ID</th>
+                <th>用户名</th>
+                <th>昵称</th>
+                <th>手机号</th>
+                <th>邮箱</th>
+                <th>创建时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input type="checkbox">
+                </td>
+                <td>1</td>
+                <td>mofer</td>
+                <td>莫非</td>
+                <td>151xxxx1234</td>
+                <td>205155513@qq.com</td>
+                <td>2017-11-10 10:20</td>
+                <td>
+                  <a href="#" class="btn btn-xs btn-primary">编辑</a>
+                  <a href="#" class="btn btn-xs btn-danger">删除</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox">
+                </td>
+                <td>1</td>
+                <td>mofer</td>
+                <td>莫非</td>
+                <td>151xxxx1234</td>
+                <td>205155513@qq.com</td>
+                <td>2017-11-10 10:20</td>
+                <td>
+                  <a href="#" class="btn btn-xs btn-primary">编辑</a>
+                  <a href="#" class="btn btn-xs btn-danger">删除</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox">
+                </td>
+                <td>1</td>
+                <td>mofer</td>
+                <td>莫非</td>
+                <td>151xxxx1234</td>
+                <td>205155513@qq.com</td>
+                <td>2017-11-10 10:20</td>
+                <td>
+                  <a href="#" class="btn btn-xs btn-primary">编辑</a>
+                  <a href="#" class="btn btn-xs btn-danger">删除</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox">
+                </td>
+                <td>1</td>
+                <td>mofer</td>
+                <td>莫非</td>
+                <td>151xxxx1234</td>
+                <td>205155513@qq.com</td>
+                <td>2017-11-10 10:20</td>
+                <td>
+                  <a href="#" class="btn btn-xs btn-primary">编辑</a>
+                  <a href="#" class="btn btn-xs btn-danger">删除</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox">
+                </td>
+                <td>1</td>
+                <td>mofer</td>
+                <td>莫非</td>
+                <td>151xxxx1234</td>
+                <td>205155513@qq.com</td>
+                <td>2017-11-10 10:20</td>
+                <td>
+                  <a href="#" class="btn btn-xs btn-primary">编辑</a>
+                  <a href="#" class="btn btn-xs btn-danger">删除</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox">
+                </td>
+                <td>1</td>
+                <td>mofer</td>
+                <td>莫非</td>
+                <td>151xxxx1234</td>
+                <td>205155513@qq.com</td>
+                <td>2017-11-10 10:20</td>
+                <td>
+                  <a href="#" class="btn btn-xs btn-primary">编辑</a>
+                  <a href="#" class="btn btn-xs btn-danger">删除</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox">
+                </td>
+                <td>1</td>
+                <td>mofer</td>
+                <td>莫非</td>
+                <td>151xxxx1234</td>
+                <td>205155513@qq.com</td>
+                <td>2017-11-10 10:20</td>
+                <td>
+                  <a href="#" class="btn btn-xs btn-primary">编辑</a>
+                  <a href="#" class="btn btn-xs btn-danger">删除</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 底部 -->
+  <!-- 依赖的第三方JS组件 -->
+  <script src="../static/global/plugins/jquery/jquery.js"></script>
+  <script src="../static/global/plugins/zui/js/zui.min.js"></script>
+  <!-- 自定义的JS组件 -->
+  <script src="../static/global/js/app.js"></script>
+  <script src="../static/layouts/layout/js/layout.js"></script>
+</body>
+
 </html>
