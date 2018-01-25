@@ -3,67 +3,716 @@
 <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
-    @-ms-viewport     { width: device-width; }
-@-o-viewport      { width: device-width; }
-@viewport         { width: device-width; }
-    .container {
-        width: auto;
-        max-width: 680px;
-        padding: 0 15px;
+    /* 树形菜单 */
+
+    .tree {
+        padding-left: 0;
     }
 
-    .container .text-muted {
-        margin: 20px 0;
-    }
-
-    html {
+    .tree ul {
         position: relative;
-        min-height: 100%;
+        display: none;
+        padding-left: 0;
     }
 
-    body {
-        /* Margin bottom by footer height */
-        margin-bottom: 60px;
+    .tree li {
+        position: relative;
+        padding: 2px 0 2px 20px;
+        list-style: none;
     }
 
-    .footer {
+    .tree li:before {
         position: absolute;
-        bottom: 0;
-        width: 100%;
-        /* Set the fixed height of the footer here */
-        height: 60px;
-        background-color: #f5f5f5;
+        top: 10px;
+        left: 8px;
+        display: block;
+        width: 3px;
+        height: 3px;
+        content: ' ';
+        background-color: #999;
+    }
+
+    .tree li.has-list:before {
+        display: none;
+    }
+
+    .tree li>.list-toggle {
+        position: absolute;
+        top: -1px;
+        left: 0;
+        z-index: 10;
+        width: 20px;
+        line-height: 24px;
+        color: #808080;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .tree li>.list-toggle:before {
+        content: '\002b';
+    }
+
+    .tree li>.list-toggle:hover,
+    .tree li>.list-toggle:active {
+        color: #0d3d88;
+    }
+
+    .tree li.open>ul {
+        display: block;
+    }
+
+    .tree li.open>.list-toggle:before {
+        content: '\2212';
+    }
+
+    .tree-actions {
+        display: inline-block;
+        margin-left: 5px;
+        opacity: 0;
+        -webkit-transition: opacity .1s;
+        -o-transition: opacity .1s;
+        transition: opacity .1s;
+    }
+
+    .tree-action {
+        display: inline-block;
+        margin-left: 5px;
+        color: #808080;
+    }
+
+    .tree-action:hover,
+    .tree-action:active {
+        text-decoration: none;
+    }
+
+    .tree li:hover>.tree-actions,
+    .tree-item-wrapper:hover>.tree-actions {
+        opacity: 1;
+    }
+
+    .tree-drag-holder {
+        background-color: #ebf2f9;
+        opacity: .4;
+    }
+
+    .tree .sort-handler {
+        cursor: move;
+    }
+
+    .tree-animate ul {
+        opacity: 0;
+        -webkit-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
+        -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
+        transition: opacity .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
+        transition: opacity .2s cubic-bezier(.175, .885, .32, 1), transform .2s cubic-bezier(.175, .885, .32, 1);
+        transition: opacity .2s cubic-bezier(.175, .885, .32, 1), transform .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
+        -webkit-transform: scale(1, .5);
+        -ms-transform: scale(1, .5);
+        -o-transform: scale(1, .5);
+        transform: scale(1, .5);
+    }
+
+    .tree-animate li.open.in>ul {
+        opacity: 1;
+        -webkit-transform: scale(1, 1);
+        -ms-transform: scale(1, 1);
+        -o-transform: scale(1, 1);
+        transform: scale(1, 1);
+    }
+
+    .tree-animate.tree-lines li.has-list.open>ul:after {
+        top: -5px;
+        bottom: 12px;
+        left: -11px;
+    }
+
+    .tree-menu {
+        overflow: hidden;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .tree-menu li {
+        padding: 0;
+    }
+
+    .tree-menu li:before {
+        display: none;
+    }
+
+    .tree-menu li>a {
+        display: block;
+        padding: 8px;
+        margin-bottom: -1px;
+        color: #353535;
+    }
+
+    .tree-menu li>a>.icon {
+        display: inline-block;
+        width: 20px;
+        color: inherit;
+        text-align: left;
+        opacity: .6;
+    }
+
+    .tree-menu li>a:hover,
+    .tree-menu li>a:active,
+    .tree-menu li>a:focus {
+        color: #0d3d88;
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, .04);
+    }
+
+    .tree-menu li>a:hover>.icon,
+    .tree-menu li>a:active>.icon,
+    .tree-menu li>a:focus>.icon {
+        opacity: .9;
+    }
+
+    .tree-menu li .list-toggle {
+        top: 6px;
+        right: 4px;
+        left: auto;
+        width: 24px;
+        height: 24px;
+        filter: alpha(opacity=45);
+        opacity: .45;
+        -webkit-transition: all .3s;
+        -o-transition: all .3s;
+        transition: all .3s;
+    }
+
+    .tree-menu li .list-toggle:before {
+        content: '\e080';
+    }
+
+    .tree-menu li.open>.list-toggle {
+        filter: alpha(opacity=75);
+        opacity: .75;
+        -webkit-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+    .tree-menu li.open>.list-toggle:before {
+        content: '\e080';
+    }
+
+    .tree-menu li>ul {
+        background-color: rgba(0, 0, 0, .04);
+    }
+
+    .tree-menu li li a {
+        padding-left: 28px;
+        border-top-color: transparent;
+        border-bottom-color: transparent;
+    }
+
+    .tree-menu li li li a {
+        padding-left: 48px;
+    }
+
+    .tree-menu li li li li a {
+        padding-left: 68px;
+    }
+
+    .tree-menu li.active>a {
+        color: #fff;
+        background-color: #3280fc;
+        border-color: #3280fc;
+    }
+
+    .tree-menu li.active>.list-toggle {
+        color: #fff;
+    }
+
+    .tree-menu>li>a {
+        border: 1px solid transparent;
+        border-bottom-color: #ddd;
+    }
+
+    .tree-menu>li.open+li>a {
+        border-top-color: #ddd;
     }
 </style>
 
 <body style="height: auto; min-height: 100%;">
     <!-- Begin page content -->
     <div class="container">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-
-        <br>
-        <br>
-        <br>
-        <br>
-        <br> 111
+        <nav class="menu" data-ride="menu" style="width: 200px">
+            <ul id="treeMenu" class="" data-ride="tree">
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-chevron-right"></i>首页</a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon  icon-user"></i>个人资料</a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon icon-time"></i>更新时间</a>
+                    <ul>
+                        <li>
+                            <a href="#">今天</a>
+                        </li>
+                        <li>
+                            <a href="#">明天</a>
+                        </li>
+                        <li>
+                            <a href="#">昨天</a>
+                        </li>
+                        <li>
+                            <a href="#">本周</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon icon-trash"></i>垃圾篓</a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon icon-list-ul"></i>全部</a>
+                </li>
+                <li class="open">
+                    <a href="#">
+                        <i class="glyphicon icon-tasks"></i>状态</a>
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <i class="glyphicon icon-circle-blank"></i>已就绪</a>
+                            <ul>
+                                <li>
+                                    <a href="#">已取消</a>
+                                </li>
+                                <li>
+                                    <a href="#">已关闭</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="active">
+                            <a href="#">
+                                <i class="glyphicon icon-play-sign"></i>进行中</a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="glyphicon icon-ok-sign"></i>已完成</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
     </div>
     <footer class="footer">
         <div class="container">
             <p class="text-muted">Place sticky footer content here.</p>
         </div>
     </footer>
+
+    <script src="../static/global/plugins/jquery/jquery.js"></script>
+    <script src="../static/global/plugins/zui/js/zui.min.js"></script>
+    <script>
+        (function ($) {
+            'use strict';
+
+            var name = 'zui.tree'; // modal name
+            var globalId = 0;
+
+            // The tree modal class
+            var Tree = function (element, options) {
+                this.name = name;
+                this.$ = $(element);
+
+                this.getOptions(options);
+                this._init();
+            };
+
+            var DETAULT_ACTIONS = {
+                sort: {
+                    template: '<a class="sort-handler" href="javascript:;"><i class="glyphicon icon-move"></i></a>'
+                },
+                add: {
+                    template: '<a href="javascript:;"><i class="glyphicon icon-plus"></i></a>'
+                },
+                edit: {
+                    template: '<a href="javascript:;"><i class="glyphicon icon-pencil"></i></a>'
+                },
+                "delete": {
+                    template: '<a href="javascript:;"><i class="glyphicon icon-trash"></i></a>'
+                }
+            };
+
+            function formatActions(actions, parentActions) {
+                if (actions === false) return actions;
+                if (!actions) return parentActions;
+
+                if (actions === true) {
+                    actions = { add: true, "delete": true, edit: true, sort: true };
+                } else if (typeof actions === 'string') {
+                    actions = actions.split(',');
+                }
+                var _actions;
+                if ($.isArray(actions)) {
+                    _actions = {};
+                    $.each(actions, function (idx, action) {
+                        if ($.isPlainObject(action)) {
+                            _actions[action.action] = action;
+                        } else {
+                            _actions[action] = true;
+                        }
+                    });
+                    actions = _actions;
+                }
+                if ($.isPlainObject(actions)) {
+                    _actions = {};
+                    $.each(actions, function (name, action) {
+                        if (action) {
+                            _actions[name] = $.extend({ type: name }, DETAULT_ACTIONS[name], $.isPlainObject(action) ? action : null);
+                        } else {
+                            _actions[name] = false;
+                        }
+                    });
+                    actions = _actions;
+                }
+                return parentActions ? $.extend(true, {}, parentActions, actions) : actions;
+            }
+
+            function createActionEle(action, name, template) {
+                name = name || action.type;
+                return $(template || action.template).addClass('tree-action').attr($.extend({ 'data-type': name, title: action.title || '' }, action.attr)).data('action', action);
+            }
+
+            // default options
+            Tree.DEFAULTS = {
+                animate: null,
+                initialState: 'normal', // 'normal' | 'preserve' | 'expand' | 'collapse',
+                toggleTemplate: '<i class="list-toggle glyphicon"></i>',
+                // sortable: false, //
+            };
+
+            Tree.prototype.add = function (rootEle, items, expand, disabledAnimate, notStore) {
+                var $e = $(rootEle), $ul, options = this.options;
+                if ($e.is('li')) {
+                    $ul = $e.children('ul');
+                    if (!$ul.length) {
+                        $ul = $('<ul/>');
+                        $e.append($ul);
+                        this._initList($ul, $e);
+                    }
+                } else {
+                    $ul = $e;
+                }
+
+                if ($ul) {
+                    var that = this;
+                    if (!$.isArray(items)) {
+                        items = [items];
+                    }
+                    $.each(items, function (idx, item) {
+                        var $li = $('<li/>').data(item).appendTo($ul);
+                        if (item.id !== undefined) $li.attr('data-id', item.id);
+                        var $wrapper = options.itemWrapper ? $(options.itemWrapper === true ? '<div class="tree-item-wrapper"/>' : options.itemWrapper).appendTo($li) : $li;
+                        if (item.html) {
+                            $wrapper.html(item.html)
+                        } else if ($.isFunction(that.options.itemCreator)) {
+                            var itemContent = that.options.itemCreator($li, item);
+                            if (itemContent !== true && itemContent !== false) $wrapper.html(itemContent);
+                        } else if (item.url) {
+                            $wrapper.append($('<a/>', { href: item.url }).text(item.title || item.name));
+                        } else {
+                            $wrapper.append($('<span/>').text(item.title || item.name));
+                        }
+                        that._initItem($li, item.idx || idx, $ul, item);
+                        if (item.children && item.children.length) {
+                            that.add($li, item.children);
+                        }
+                    });
+                    this._initList($ul);
+                    if (expand && !$ul.hasClass('tree')) {
+                        that.expand($ul.parent('li'), disabledAnimate, notStore);
+                    }
+                }
+            };
+
+            Tree.prototype.reload = function (data) {
+                var that = this;
+
+                if (data) {
+                    that.$.empty();
+                    that.add(that.$, data);
+                }
+
+                if (that.isPreserve) {
+                    if (that.store.time) {
+                        that.$.find('li:not(.tree-action-item)').each(function () {
+                            var $li = $(this);
+                            that[that.store[$li.data('id')] ? 'expand' : 'collapse']($li, true, true);
+                        });
+                    }
+                }
+            };
+
+            Tree.prototype._initList = function ($list, $parentItem, idx, data) {
+                var that = this;
+                if (!$list.hasClass('tree')) {
+                    $parentItem = ($parentItem || $list.closest('li')).addClass('has-list');
+                    if (!$parentItem.find('.list-toggle').length) {
+                        $parentItem.prepend(this.options.toggleTemplate);
+                    }
+                    idx = idx || $parentItem.data('idx');
+                } else {
+                    idx = 0;
+                    $parentItem = null;
+                }
+                var $children = $list.attr('data-idx', idx || 0).children('li:not(.tree-action-item)').each(function (index) {
+                    that._initItem($(this), index + 1, $list);
+                });
+                if ($children.length === 1 && !$children.find('ul').length) {
+                    $children.addClass('tree-single-item');
+                }
+                data = data || ($parentItem ? $parentItem.data() : null);
+                var actions = formatActions(data ? data.actions : null, this.actions);
+                if (actions) {
+                    if (actions.add && actions.add.templateInList !== false) {
+                        var $actionItem = $list.children('li.tree-action-item');
+                        if (!$actionItem.length) {
+                            $('<li class="tree-action-item"/>').append(createActionEle(actions.add, 'add', actions.add.templateInList)).appendTo($list);
+                        } else {
+                            $actionItem.detach().appendTo($list);
+                        }
+                    }
+                    if (actions.sort) {
+                        $list.sortable($.extend({
+                            dragCssClass: 'tree-drag-holder',
+                            trigger: '.sort-handler',
+                            selector: 'li:not(.tree-action-item)',
+                            finish: function (e) {
+                                that.callEvent('action', { action: actions.sort, $list: $list, target: e.target, item: data });
+                            }
+                        }, actions.sort.options, $.isPlainObject(this.options.sortable) ? this.options.sortable : null));
+                    }
+                }
+                if ($parentItem && ($parentItem.hasClass('open') || (data && data.open))) {
+                    $parentItem.addClass('open in');
+                }
+            };
+
+            Tree.prototype._initItem = function ($item, idx, $parentList, data) {
+                if (idx === undefined) {
+                    var $pre = $item.prev('li');
+                    idx = $pre.length ? ($pre.data('idx') + 1) : 1;
+                }
+                $parentList = $parentList || $item.closest('ul');
+                $item.attr('data-idx', idx).removeClass('tree-single-item');
+                if (!$item.data('id')) {
+                    var id = idx;
+                    if (!$parentList.hasClass('tree')) {
+                        id = $parentList.parent('li').data('id') + '-' + id;
+                    }
+                    $item.attr('data-id', id);
+                }
+                data = data || $item.data();
+                var actions = formatActions(data.actions, this.actions);
+                if (actions) {
+                    var $actions = $item.find('.tree-actions');
+                    if (!$actions.length) {
+                        $actions = $('<div class="tree-actions"/>').appendTo(this.options.itemWrapper ? $item.find('.tree-item-wrapper') : $item);
+                        $.each(actions, function (actionName, action) {
+                            if (action) $actions.append(createActionEle(action, actionName));
+                        });
+                    }
+                }
+
+                var $children = $item.children('ul');
+                if ($children.length) {
+                    this._initList($children, $item, idx, data);
+                }
+            };
+
+            Tree.prototype._init = function () {
+                var options = this.options, that = this;
+                this.actions = formatActions(options.actions);
+
+                this.$.addClass('tree');
+                if (options.animate) this.$.addClass('tree-animate');
+
+                this._initList(this.$);
+
+                var initialState = options.initialState;
+                var isPreserveEnable = $.zui && $.zui.store && $.zui.store.enable;
+                if (isPreserveEnable) {
+                    this.selector = name + '::' + (options.name || '') + '#' + (this.$.attr('id') || globalId++);
+                    this.store = $.zui.store[options.name ? 'get' : 'pageGet'](this.selector, {});
+                }
+                if (initialState === 'preserve') {
+                    if (isPreserveEnable) this.isPreserve = true;
+                    else this.options.initialState = initialState = 'normal';
+                }
+
+                // init data
+                this.reload(options.data);
+                if (isPreserveEnable) this.isPreserve = true;
+
+                if (initialState === 'expand') {
+                    this.expand();
+                } else if (initialState === 'collapse') {
+                    this.collapse();
+                }
+
+                // Bind event
+                this.$.on('click', '.list-toggle,a[href="#"],.tree-toggle', function (e) {
+                    var $this = $(this);
+                    var $li = $this.parent('li');
+                    that.callEvent('hit', { target: $li, item: $li.data() });
+                    that.toggle($li);
+                    if ($this.is('a')) e.preventDefault();
+                }).on('click', '.tree-action', function () {
+                    var $action = $(this);
+                    var action = $action.data();
+                    if (action.action) action = action.action;
+                    if (action.type === 'sort') return;
+                    var $li = $action.closest('li:not(.tree-action-item)');
+                    that.callEvent('action', { action: action, target: this, $item: $li, item: $li.data() });
+                });
+            };
+
+            Tree.prototype.preserve = function ($li, id, expand) {
+                if (!this.isPreserve) return;
+                if ($li) {
+                    id = id || $li.data('id');
+                    expand = expand === undefined ? $li.hasClass('open') : false;
+                    if (expand) this.store[id] = expand;
+                    else delete this.store[id];
+                    this.store.time = new Date().getTime();
+                    $.zui.store[this.options.name ? 'set' : 'pageSet'](this.selector, this.store);
+                } else {
+                    var that = this;
+                    this.store = {};
+                    this.$.find('li').each(function () {
+                        that.preserve($(this));
+                    });
+                }
+            };
+
+            Tree.prototype.expand = function ($li, disabledAnimate, notStore) {
+                if ($li) {
+                    $li.addClass('open');
+                    if (!disabledAnimate && this.options.animate) {
+                        setTimeout(function () {
+                            $li.addClass('in');
+                        }, 10);
+                    } else {
+                        $li.addClass('in');
+                    }
+                } else {
+                    $li = this.$.find('li.has-list').addClass('open in');
+                }
+                if (!notStore) this.preserve($li);
+                this.callEvent('expand', $li, this);
+            };
+
+            Tree.prototype.show = function ($lis, disabledAnimate, notStore) {
+                var that = this;
+                $lis.each(function () {
+                    var $li = $(this);
+                    that.expand($li, disabledAnimate, notStore);
+                    if ($li) {
+                        var $ul = $li.parent('ul');
+                        while ($ul && $ul.length && !$ul.hasClass('tree')) {
+                            var $parentLi = $ul.parent('li');
+                            if ($parentLi.length) {
+                                that.expand($parentLi, disabledAnimate, notStore);
+                                $ul = $parentLi.parent('ul');
+                            } else {
+                                $ul = false;
+                            }
+                        }
+                    }
+                });
+            };
+
+            Tree.prototype.collapse = function ($li, disabledAnimate, notStore) {
+                if ($li) {
+                    if (!disabledAnimate && this.options.animate) {
+                        $li.removeClass('in');
+                        setTimeout(function () {
+                            $li.removeClass('open');
+                        }, 300);
+                    } else {
+                        $li.removeClass('open in');
+                    }
+                } else {
+                    $li = this.$.find('li.has-list').removeClass('open in');
+                }
+                if (!notStore) this.preserve($li);
+                this.callEvent('collapse', $li, this);
+            };
+
+            Tree.prototype.toggle = function ($li) {
+                var collapse = ($li && $li.hasClass('open')) || $li === false || ($li === undefined && this.$.find('li.has-list.open').length);
+                this[collapse ? 'collapse' : 'expand']($li);
+            };
+
+            // Get and init options
+            Tree.prototype.getOptions = function (options) {
+                this.options = $.extend({}, Tree.DEFAULTS, this.$.data(), options);
+                if (this.options.animate === null && this.$.hasClass('tree-animate')) {
+                    this.options.animate = true;
+                }
+            };
+
+            Tree.prototype.toData = function ($ul, filter) {
+                if ($.isFunction($ul)) {
+                    filter = $ul;
+                    $ul = null;
+                }
+                $ul = $ul || this.$;
+                var that = this;
+                return $ul.children('li:not(.tree-action-item)').map(function () {
+                    var $li = $(this);
+                    var data = $li.data();
+                    delete data['zui.droppable'];
+                    var $children = $li.children('ul');
+                    if ($children.length) data.children = that.toData($children);
+                    return $.isFunction(filter) ? filter(data, $li) : data;
+                }).get();
+            };
+
+            // Call event helper
+            Tree.prototype.callEvent = function (name, params) {
+                var result;
+                if ($.isFunction(this.options[name])) {
+                    result = this.options[name](params, this);
+                }
+                this.$.trigger($.Event(name + '.' + this.name, params));
+                return result;
+            };
+
+            // Extense jquery element
+            $.fn.tree = function (option, params) {
+                return this.each(function () {
+                    var $this = $(this);
+                    var data = $this.data(name);
+                    var options = typeof option == 'object' && option;
+
+                    if (!data) $this.data(name, (data = new Tree(this, options)));
+
+                    if (typeof option == 'string') data[option](params);
+                });
+            };
+
+            $.fn.tree.Constructor = Tree;
+
+            // Auto call tree after document load complete
+            $(function () {
+                $('[data-ride="tree"]').tree();
+            });
+        }(jQuery));
+
+    </script>
+    <!-- <script src="../static/global/plugins/bootstrap/js/bootstrap.min.js"></script> -->
 </body>
 
 </html>
