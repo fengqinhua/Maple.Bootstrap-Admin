@@ -145,7 +145,7 @@
         color: #353535;
     }
 
-    .tree-menu li>a>.icon {
+    .tree-menu li>a>.glyphicon {
         display: inline-block;
         width: 20px;
         color: inherit;
@@ -161,9 +161,9 @@
         background-color: rgba(0, 0, 0, .04);
     }
 
-    .tree-menu li>a:hover>.icon,
-    .tree-menu li>a:active>.icon,
-    .tree-menu li>a:focus>.icon {
+    .tree-menu li>a:hover>.glyphicon ,
+    .tree-menu li>a:active>.glyphicon ,
+    .tree-menu li>a:focus>.glyphicon  {
         opacity: .9;
     }
 

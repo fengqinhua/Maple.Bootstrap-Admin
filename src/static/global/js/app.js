@@ -1,29 +1,676 @@
-/**
-定义页面公共方法的组件
-**/
-;
-var App = function() {
-
-    return {
-        init: function () {            
-        }
-    };
-}();
-
-
 /* ========================================================================
- * ZUI: tree.js [1.4.0+]
- * http://zui.sexy
+ * Maple: App.js [1.0.0]
+ * https://github.com/fengqinhua/Maple.Bootstrap-Admin
  * ========================================================================
- * Copyright (c) 2016 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2018; Licensed MIT
  *
- * Maple: The file has been changed in Maple. It will not keep update with the ZUI version in the future.
+ * ! Some code copy from zui 1.8.1 by QingDao Nature Easy Soft Network Technology Co,LTD  @easysoft cnezsoft.com. (Copyright (c) 2018 cnezsoft.com; Licensed MIT)
+ * ! The file has been changed in Maple. It will not keep update with the ZUI version in the future.
  * ======================================================================== */
 
+;
+(function($, window, undefined) {
+    'use strict';
+    /* Check jquery */
+    if(typeof($) === 'undefined') throw new Error('maple requires jQuery');
+
+    if(!$.maple) $.maple = function(obj) {
+        if($.isPlainObject(obj)) {
+            $.extend($.maple, obj);
+        }
+    };
+
+    var lastUuidAmend = 0;
+    $.maple({
+        uuid: function() {
+            return(new Date()).getTime() * 1000 + (lastUuidAmend++) % 1000;
+        },
+        clientLang: function() {
+            var lang;
+            var config = window.config;
+            if(typeof(config) != 'undefined' && config.clientLang) {
+                lang = config.clientLang;
+            }
+            if(!lang) {
+                var hl = $('html').attr('lang');
+                lang = hl ? hl : (navigator.userLanguage || navigator.userLanguage || 'zh_cn');
+            }
+            return lang.replace('-', '_').toLowerCase();
+        }
+    });
+}(jQuery, window, undefined));
+
+/* ========================================================================
+ * browser.js
+ * ======================================================================== */
 (function($) {
     'use strict';
 
-    var name = 'maple.zui.tree'; // modal name
+    var browseHappyTip = {
+        'zh_cn': '您的浏览器版本过低，无法体验所有功能，建议升级或者更换浏览器。 <a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
+        'zh_tw': '您的瀏覽器版本過低，無法體驗所有功能，建議升級或者更换瀏覽器。<a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
+        'en': 'Your browser is too old, it has been unable to experience the colorful internet. We strongly recommend that you upgrade a better one. <a href="http://browsehappy.com/" target="_blank" class="alert-link">Learn more...</a>'
+    };
+
+    // The browser modal class
+    var Browser = function() {
+        var ie = this.isIE() || this.isIE10() || false;
+        if(ie) {
+            for(var i = 10; i > 5; i--) {
+                if(this.isIE(i)) {
+                    ie = i;
+                    break;
+                }
+            }
+        }
+
+        this.ie = ie;
+
+        this.cssHelper();
+    };
+
+    // Append CSS class to html tag
+    Browser.prototype.cssHelper = function() {
+        var ie = this.ie,
+            $html = $('html');
+        $html.toggleClass('ie', ie)
+            .removeClass('ie-6 ie-7 ie-8 ie-9 ie-10');
+        if(ie) {
+            $html.addClass('ie-' + ie)
+                .toggleClass('gt-ie-7 gte-ie-8 support-ie', ie >= 8)
+                .toggleClass('lte-ie-7 lt-ie-8 outdated-ie', ie < 8)
+                .toggleClass('gt-ie-8 gte-ie-9', ie >= 9)
+                .toggleClass('lte-ie-8 lt-ie-9', ie < 9)
+                .toggleClass('gt-ie-9 gte-ie-10', ie >= 10)
+                .toggleClass('lte-ie-9 lt-ie-10', ie < 10);
+        }
+    };
+
+    // Show browse happy tip
+    Browser.prototype.tip = function(showCoontent) {
+        var $browseHappy = $('#browseHappyTip');
+        if(!$browseHappy.length) {
+            $browseHappy = $('<div class="alert alert-danger text-center" id="browseHappyTip" style="border-radius: 0;margin-bottom: 0;position: relative; z-index: 99999"></div>');
+            $browseHappy.prependTo('body');
+        }
+
+        $browseHappy.html(showCoontent || this.browseHappyTip || browseHappyTip[$.maple.clientLang() || 'zh_cn']);
+    };
+
+    // Detect it is IE, can given a version
+    Browser.prototype.isIE = function(version) {
+        if(version === 10) return this.isIE10();
+        var b = document.createElement('b');
+        b.innerHTML = '<!--[if IE ' + (version || '') + ']><i></i><![endif]-->';
+        return b.getElementsByTagName('i').length === 1;
+    };
+
+    // Detect ie 10 with hack
+    Browser.prototype.isIE10 = function() {
+        return (/*@cc_on!@*/false);
+    };
+    
+    $.maple({
+        browser: new Browser()
+    });
+
+    //不用该方法进行验证
+    // $(function() {
+    //     if(!$('body').hasClass('disabled-browser-tip')) {
+    //         if($.maple.browser.ie && $.maple.browser.ie < 8) {
+    //             $.maple.browser.tip();
+    //         }
+    //     }
+    // });
+}(jQuery));
+
+/* ========================================================================
+ * date.js
+ * ======================================================================== */
+(function() {
+    'use strict';
+
+    /**
+     * Ticks of a whole day
+     * @type {number}
+     */
+    Date.ONEDAY_TICKS = 24 * 3600 * 1000;
+
+    /**
+     * Format date to a string
+     *
+     * @param  string   format
+     * @return string
+     */
+    if(!Date.prototype.format) {
+        Date.prototype.format = function(format) {
+            var date = {
+                'M+': this.getMonth() + 1,
+                'd+': this.getDate(),
+                'h+': this.getHours(),
+                'm+': this.getMinutes(),
+                's+': this.getSeconds(),
+                'q+': Math.floor((this.getMonth() + 3) / 3),
+                'S+': this.getMilliseconds()
+            };
+            if(/(y+)/i.test(format)) {
+                format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+            }
+            for(var k in date) {
+                if(new RegExp('(' + k + ')').test(format)) {
+                    format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ('00' + date[k]).substr(('' + date[k]).length));
+                }
+            }
+            return format;
+        };
+    }
+
+    /**
+     * Add milliseconds to the date
+     * @param {number} value
+     */
+    if(!Date.prototype.addMilliseconds) {
+        Date.prototype.addMilliseconds = function(value) {
+            this.setTime(this.getTime() + value);
+            return this;
+        };
+    }
+
+
+    /**
+     * Add days to the date
+     * @param {number} days
+     */
+    if(!Date.prototype.addDays) {
+        Date.prototype.addDays = function(days) {
+            this.addMilliseconds(days * Date.ONEDAY_TICKS);
+            return this;
+        };
+    }
+
+
+    /**
+     * Clone a new date instane from the date
+     * @return {Date}
+     */
+    if(!Date.prototype.clone) {
+        Date.prototype.clone = function() {
+            var date = new Date();
+            date.setTime(this.getTime());
+            return date;
+        };
+    }
+
+
+    /**
+     * Judge the year is in a leap year
+     * @param  {integer}  year
+     * @return {Boolean}
+     */
+    if(!Date.isLeapYear) {
+        Date.isLeapYear = function(year) {
+            return(((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
+        };
+    }
+
+    if(!Date.getDaysInMonth) {
+        /**
+         * Get days number of the date
+         * @param  {integer} year
+         * @param  {integer} month
+         * @return {integer}
+         */
+        Date.getDaysInMonth = function(year, month) {
+            return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+        };
+    }
+
+
+    /**
+     * Judge the date is in a leap year
+     * @return {Boolean}
+     */
+    if(!Date.prototype.isLeapYear) {
+        Date.prototype.isLeapYear = function() {
+            return Date.isLeapYear(this.getFullYear());
+        };
+    }
+
+
+    /**
+     * Clear time part of the date
+     * @return {date}
+     */
+    if(!Date.prototype.clearTime) {
+        Date.prototype.clearTime = function() {
+            this.setHours(0);
+            this.setMinutes(0);
+            this.setSeconds(0);
+            this.setMilliseconds(0);
+            return this;
+        };
+    }
+
+
+    /**
+     * Get days of this month of the date
+     * @return {integer}
+     */
+    if(!Date.prototype.getDaysInMonth) {
+        Date.prototype.getDaysInMonth = function() {
+            return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
+        };
+    }
+
+
+    /**
+     * Add months to the date
+     * @param {date} value
+     */
+    if(!Date.prototype.addMonths) {
+        Date.prototype.addMonths = function(value) {
+            var n = this.getDate();
+            this.setDate(1);
+            this.setMonth(this.getMonth() + value);
+            this.setDate(Math.min(n, this.getDaysInMonth()));
+            return this;
+        };
+    }
+
+
+    /**
+     * Get last week day of the date
+     * @param  {integer} day
+     * @return {date}
+     */
+    if(!Date.prototype.getLastWeekday) {
+        Date.prototype.getLastWeekday = function(day) {
+            day = day || 1;
+
+            var d = this.clone();
+            while(d.getDay() != day) {
+                d.addDays(-1);
+            }
+            d.clearTime();
+            return d;
+        };
+    }
+
+
+    /**
+     * Judge the date is same day as another date
+     * @param  {date}  date
+     * @return {Boolean}
+     */
+    if(!Date.prototype.isSameDay) {
+        Date.prototype.isSameDay = function(date) {
+            return date.toDateString() === this.toDateString();
+        };
+    }
+
+
+    /**
+     * Judge the date is in same week as another date
+     * @param  {date}  date
+     * @return {Boolean}
+     */
+    if(!Date.prototype.isSameWeek) {
+        Date.prototype.isSameWeek = function(date) {
+            var weekStart = this.getLastWeekday();
+            var weekEnd = weekStart.clone().addDays(7);
+            return date >= weekStart && date < weekEnd;
+        };
+    }
+
+
+    /**
+     * Judge the date is in same year as another date
+     * @param  {date}  date
+     * @return {Boolean}
+     */
+    if(!Date.prototype.isSameYear) {
+        Date.prototype.isSameYear = function(date) {
+            return this.getFullYear() === date.getFullYear();
+        };
+    }
+
+    /**
+     * Create an date instance with string, timestamp or date instance
+     * @param  {Date|String|Number}  date
+     * @return {Date}
+     */
+    if (!Date.create) {
+        Date.create = function(date) {
+            if (!(date instanceof Date)) {
+                if (typeof date === 'number' && date < 10000000000) {
+                    date *= 1000;
+                }
+                date = new Date(date);
+            }
+            return date;
+        };
+    }
+
+    if (!Date.timestamp) {
+        Date.timestamp = function(date) {
+            if (typeof date === 'number') {
+                if (date < 10000000000) {
+                    date *= 1000;
+                }
+            } else {
+                date = Date.create(date).getTime();
+            }
+            return date;
+        };
+    }
+}());
+
+/* ========================================================================
+ * string.js
+ * ======================================================================== */
+(function() {
+    'use strict';
+
+    /**
+     * Format string with argument list or object
+     * @param  {object | arguments} args
+     * @return {String}
+     */
+    if(!String.prototype.format) {
+        String.prototype.format = function(args) {
+            var result = this;
+            if(arguments.length > 0) {
+                var reg;
+                if(arguments.length <= 2 && typeof(args) == 'object') {
+                    for(var key in args) {
+                        if(args[key] !== undefined) {
+                            reg = new RegExp('(' + (arguments[1] ? arguments[1].replace('0', key) : '{' + key + '}') + ')', 'g');
+                            result = result.replace(reg, args[key]);
+                        }
+                    }
+                } else {
+                    for(var i = 0; i < arguments.length; i++) {
+                        if(arguments[i] !== undefined) {
+                            reg = new RegExp('({[' + i + ']})', 'g');
+                            result = result.replace(reg, arguments[i]);
+                        }
+                    }
+                }
+            }
+            return result;
+        };
+    }
+
+    /**
+     * Judge the string is a integer number
+     *
+     * @access public
+     * @return bool
+     */
+    if(!String.prototype.isNum) {
+        String.prototype.isNum = function(s) {
+            if(s !== null) {
+                var r, re;
+                re = /\d*/i;
+                r = s.match(re);
+                return(r == s) ? true : false;
+            }
+            return false;
+        };
+    }
+
+    if(!String.prototype.endsWith) {
+        String.prototype.endsWith = function(searchString, position) {
+            var subjectString = this.toString();
+            if(position === undefined || position > subjectString.length) {
+                position = subjectString.length;
+            }
+            position -= searchString.length;
+            var lastIndex = subjectString.indexOf(searchString, position);
+            return lastIndex !== -1 && lastIndex === position;
+        };
+    }
+
+    if(!String.prototype.startsWith) {
+        String.prototype.startsWith = function(searchString, position) {
+            position = position || 0;
+            return this.lastIndexOf(searchString, position) === position;
+        };
+    }
+
+    if(!String.prototype.includes) {
+        String.prototype.includes = function() {
+            return String.prototype.indexOf.apply(this, arguments) !== -1;
+        };
+    }
+
+})();
+
+
+/* ========================================================================
+ * storeb.js
+ * ======================================================================== */
+(function(window, $) {
+    'use strict';
+
+    var lsName = 'localStorage';
+    var storage,
+        dataset,
+        pageName = 'page_' + window.location.pathname + window.location.search;
+
+    /* The Store object */
+    var Store = function() {
+        this.slience = true;
+        try {
+            if((lsName in window) && window[lsName] && window[lsName].setItem) {
+                this.enable = true;
+                storage = window[lsName];
+            }
+        } catch(e){}
+        if(!this.enable) {
+            dataset = {};
+            storage = {
+                getLength: function() {
+                    var length = 0;
+                    $.each(dataset, function() {
+                        length++;
+                    });
+                    return length;
+                },
+                key: function(index) {
+                    var key, i = 0;
+                    $.each(dataset, function(k) {
+                        if(i === index) {
+                            key = k;
+                            return false;
+                        }
+                        i++;
+                    });
+                    return key;
+                },
+                removeItem: function(key) {
+                    delete dataset[key];
+                },
+                getItem: function(key) {
+                    return dataset[key];
+                },
+                setItem: function(key, val) {
+                    dataset[key] = val;
+                },
+                clear: function() {
+                    dataset = {};
+                }
+            };
+        }
+        this.storage = storage;
+        this.page = this.get(pageName, {});
+    };
+
+    /* Save page data */
+    Store.prototype.pageSave = function() {
+        if($.isEmptyObject(this.page)) {
+            this.remove(pageName);
+        } else {
+            var forDeletes = [],
+                i;
+            for(i in this.page) {
+                var val = this.page[i];
+                if(val === null)
+                    forDeletes.push(i);
+            }
+            for(i = forDeletes.length - 1; i >= 0; i--) {
+                delete this.page[forDeletes[i]];
+            }
+            this.set(pageName, this.page);
+        }
+    };
+
+    /* Remove page data item */
+    Store.prototype.pageRemove = function(key) {
+        if(typeof this.page[key] != 'undefined') {
+            this.page[key] = null;
+            this.pageSave();
+        }
+    };
+
+    /* Clear page data */
+    Store.prototype.pageClear = function() {
+        this.page = {};
+        this.pageSave();
+    };
+
+    /* Get page data */
+    Store.prototype.pageGet = function(key, defaultValue) {
+        var val = this.page[key];
+        return(defaultValue !== undefined && (val === null || val === undefined)) ? defaultValue : val;
+    };
+
+    /* Set page data */
+    Store.prototype.pageSet = function(objOrKey, val) {
+        if($.isPlainObject(objOrKey)) {
+            $.extend(true, this.page, objOrKey);
+        } else {
+            this.page[this.serialize(objOrKey)] = val;
+        }
+        this.pageSave();
+    };
+
+    /* Check enable status */
+    Store.prototype.check = function() {
+        if(!this.enable) {
+            if(!this.slience) throw new Error('Browser not support localStorage or enable status been set true.');
+        }
+        return this.enable;
+    };
+
+    /* Get length */
+    Store.prototype.length = function() {
+        if(this.check()) {
+            return storage.getLength ? storage.getLength() : storage.length;
+        }
+        return 0;
+    };
+
+    /* Remove item with browser localstorage native method */
+    Store.prototype.removeItem = function(key) {
+        storage.removeItem(key);
+        return this;
+    };
+
+    /* Remove item with browser localstorage native method, same as removeItem */
+    Store.prototype.remove = function(key) {
+        return this.removeItem(key);
+    };
+
+    /* Get item value with browser localstorage native method, and without deserialize */
+    Store.prototype.getItem = function(key) {
+        return storage.getItem(key);
+    };
+
+    /* Get item value and deserialize it, if value is null and defaultValue been given then return defaultValue */
+    Store.prototype.get = function(key, defaultValue) {
+        var val = this.deserialize(this.getItem(key));
+        if(typeof val === 'undefined' || val === null) {
+            if(typeof defaultValue !== 'undefined') {
+                return defaultValue;
+            }
+        }
+        return val;
+    };
+
+    /* Get item key by index and deserialize it */
+    Store.prototype.key = function(index) {
+        return storage.key(index);
+    };
+
+    /* Set item value with browser localstorage native method, and without serialize filter */
+    Store.prototype.setItem = function(key, val) {
+        storage.setItem(key, val);
+        return this;
+    };
+
+    /* Set item value, serialize it if the given value is not an string */
+    Store.prototype.set = function(key, val) {
+        if(val === undefined) return this.remove(key);
+        this.setItem(key, this.serialize(val));
+        return this;
+    };
+
+    /* Clear all items with browser localstorage native method */
+    Store.prototype.clear = function() {
+        storage.clear();
+        return this;
+    };
+
+    /* Iterate all items with callback */
+    Store.prototype.forEach = function(callback) {
+        var length = this.length();
+        for(var i = length - 1; i >= 0; i--) {
+            var key = storage.key(i);
+            callback(key, this.get(key));
+        }
+        return this;
+    };
+
+    /* Get all items and set value in an object. */
+    Store.prototype.getAll = function() {
+        var all = {};
+        this.forEach(function(key, val) {
+            all[key] = val;
+        });
+
+        return all;
+    };
+
+    /* Serialize value with JSON.stringify */
+    Store.prototype.serialize = function(value) {
+        if(typeof value === 'string') return value;
+        return JSON.stringify(value);
+    };
+
+    /* Deserialize value, with JSON.parse if the given value is not a string */
+    Store.prototype.deserialize = function(value) {
+        if(typeof value !== 'string') return undefined;
+        try {
+            return JSON.parse(value);
+        } catch(e) {
+            return value || undefined;
+        }
+    };
+
+    $.maple({
+        store: new Store()
+    });
+}(window, jQuery));
+
+
+/* ========================================================================
+ * tree.js
+ * ======================================================================== */
+(function($) {
+    'use strict';
+
+    var name = 'maple.tree'; // modal name
     var globalId = 0;
 
     // The tree modal class
@@ -94,7 +741,7 @@ var App = function() {
     Tree.DEFAULTS = {
         animate: null,
         initialState: 'normal', // 'normal' | 'preserve' | 'expand' | 'collapse',
-        toggleTemplate: '<i class="list-toggle glyphicon"></i>',
+        toggleTemplate: '<i class="list-toggle glyphicon"></i>'
         // sortable: false, //
     };
 
@@ -249,10 +896,10 @@ var App = function() {
         this._initList(this.$);
 
         var initialState = options.initialState;
-        var isPreserveEnable = $.zui && $.zui.store && $.zui.store.enable;
+        var isPreserveEnable = $.maple && $.maple.store && $.maple.store.enable;
         if(isPreserveEnable) {
             this.selector = name + '::' + (options.name || '') + '#' + (this.$.attr('id') || globalId++);
-            this.store = $.zui.store[options.name ? 'get' : 'pageGet'](this.selector, {});
+            this.store = $.maple.store[options.name ? 'get' : 'pageGet'](this.selector, {});
         }
         if(initialState === 'preserve') {
             if(isPreserveEnable) this.isPreserve = true;
@@ -294,7 +941,7 @@ var App = function() {
             if(expand) this.store[id] = expand;
             else delete this.store[id];
             this.store.time = new Date().getTime();
-            $.zui.store[this.options.name ? 'set' : 'pageSet'](this.selector, this.store);
+            $.maple.store[this.options.name ? 'set' : 'pageSet'](this.selector, this.store);
         } else {
             var that = this;
             this.store = {};
@@ -381,7 +1028,7 @@ var App = function() {
         return $ul.children('li:not(.tree-action-item)').map(function() {
             var $li = $(this);
             var data = $li.data();
-            delete data['zui.droppable'];
+            delete data['maple.droppable'];
             var $children = $li.children('ul');
             if($children.length) data.children = that.toData($children);
             return $.isFunction(filter) ? filter(data, $li) : data;
@@ -418,10 +1065,3 @@ var App = function() {
         $('[data-ride="tree"]').tree();
     });
 }(jQuery));
-
-
-
-jQuery(document).ready(function() {    
-    App.init(); // 初始化公共组件
- });
-

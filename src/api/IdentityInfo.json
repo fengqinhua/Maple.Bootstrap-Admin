@@ -1,0 +1,29 @@
+{
+    "name": "Maple",
+    "unit": "xx公司",
+    "menus": [
+        {
+            "title": "系统首页",
+            "url": "#views/index.md"
+        },
+        {
+            "title": "常用页面",
+            "url": "#",
+            "open": true,
+            "children": [
+                {
+                    "title": "系统登录",
+                    "url": "login.html"
+                },
+                {
+                    "title": "系统首页",
+                    "url": "error404.html"
+                },
+                {
+                    "title": "系统首页",
+                    "url": "#views/sys/setting.md"
+                }
+            ]
+        }
+    ]
+}
