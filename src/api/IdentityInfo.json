@@ -1,27 +1,54 @@
 {
-    "name": "Maple",
+    "name": "管理员",
     "unit": "xx公司",
     "menus": [
         {
+            "id": "stsy",
             "title": "系统首页",
-            "url": "#views/index.md"
+            "icon": "glyphicon glyphicon-th",
+            "url": "#../templates/page-home.html"
         },
         {
+            "id": "cyym",
             "title": "常用页面",
+            "icon": "glyphicon glyphicon-cog",
             "url": "#",
             "open": true,
             "children": [
                 {
-                    "title": "系统登录",
-                    "url": "login.html"
+                    "id": "fwyc",
+                    "title": "访问异常",
+                    "url": "#../templates/page-error.html"
                 },
                 {
-                    "title": "系统首页",
-                    "url": "error404.html"
+                    "id": "lbym-a",
+                    "title": "示例模块1",
+                    "url": "#../templates/page-baseExample1.html"
                 },
                 {
-                    "title": "系统首页",
-                    "url": "#views/sys/setting.md"
+                    "id": "bdym-a",
+                    "title": "表单页面",
+                    "url": "#../templates/page-baseExample1-form.html"
+                },
+                {
+                    "id": "csym",
+                    "title": "测试页面",
+                    "url": "#../templates/page-test.html"
+                },
+                {
+                    "id": "404",
+                    "title": "错误404",
+                    "url": "page-404.html"
+                },
+                {
+                    "id": "500",
+                    "title": "错误500",
+                    "url": "page-500.html"
+                },
+                {
+                    "id": "other",
+                    "title": "打开外部页面",
+                    "url": "https://www.baidu.com"
                 }
             ]
         }

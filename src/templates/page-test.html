@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home Page</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta content="" name="description" />
+    <meta content="fengqinhua2016@163.com" name="author" />
+    <!-- 第三方组件样式 -->
+    <link href="../static/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../static/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!-- 自定义的CSS组件 -->
+    <link href="../static/global/css/app.css" rel="stylesheet">
+    <link href="../static/layouts/layout-default/css/layout.css" rel="stylesheet">
+    <link id="maple-theme" href="../static/layouts/layout-default/css/themes/blue.css" rel="stylesheet">
+    <!-- 网页图标 -->
+    <link rel="shortcut icon" href="../favicon.ico" />
+    <!--[if lt IE 9]>
+            <script src="../static/global/plugins/ieonly/html5shiv.js"></script>
+            <script src="../static/global/plugins/ieonly/respond.js"></script>
+            <script src="../static/global/plugins/ieonly/excanvas.js"></script>
+      <![endif]-->
+ 
+</head>
+
+<body>
+    <div id="pagecontent">
+        <h1>this is page for test！</h1>
+        <input type="button" value="滚动至当前按钮所在的位置下方20px" onClick="Layout.scrollPageTo($(this),20);" />
+        <input type="button" value="浏览器是否支持本地存储" onClick="alert(App.isStorageEnable?'支持':'不支持');" />
+        <input type="button" value="获得当前URL" onClick="alert(App.getCurrentUrl());" />
+        <input type="button" value="获得URL参数" onClick="alert(App.getQueryString('name','Maple'));" />
+        <input type="button" value="打开首页" onClick="Layout.openModule();" />
+        <input type="button" value="打开列表页A" onClick="Layout.openModule('#../templates/page-list.html');" />
+        <input type="button" value="startPageLoading" onClick="App.startPageLoading();" />
+        <input type="button" value="stopPageLoading" onClick="App.stopPageLoading();" />
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div class="x_panel">
+                <div class="x_title">
+                  <h2>Form Input Grid <small>form input </small></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Settings 1</a>
+                        </li>
+                        <li><a href="#">Settings 2</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+  
+                  <div class="row form-horizontal form-label-left">
+  
+                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-12" class="form-control">
+                    </div>
+  
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-6" class="form-control">
+                    </div>
+  
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-6" class="form-control">
+                    </div>
+  
+  
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-4" class="form-control">
+                    </div>
+  
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-4" class="form-control">
+                    </div>
+  
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-4" class="form-control">
+                    </div>
+  
+  
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-3" class="form-control">
+                    </div>
+  
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-3" class="form-control">
+                    </div>
+  
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-3" class="form-control">
+                    </div>
+  
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-3" class="form-control">
+                    </div>
+  
+  
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-2" class="form-control">
+                    </div>
+  
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-2" class="form-control">
+                    </div>
+  
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-2" class="form-control">
+                    </div>
+  
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-2" class="form-control">
+                    </div>
+  
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-2" class="form-control">
+                    </div>
+  
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-2" class="form-control">
+                    </div>
+  
+  
+                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-1" class="form-control">
+                    </div>
+  
+                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-1" class="form-control">
+                    </div>
+  
+                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-1" class="form-control">
+                    </div>
+  
+                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-1" class="form-control">
+                    </div>
+  
+                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-1" class="form-control">
+                    </div>
+  
+                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-1" class="form-control">
+                    </div>
+  
+                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-1" class="form-control">
+                    </div>
+  
+                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-1" class="form-control">
+                    </div>
+  
+                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-1" class="form-control">
+                    </div>
+  
+                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-1" class="form-control">
+                    </div>
+  
+                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-1" class="form-control">
+                    </div>
+  
+                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                      <input type="text" placeholder=".col-md-1" class="form-control">
+                    </div>
+                  </div>
+  
+                </div>
+              </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div>***************************************************************</div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div>***************************************************************</div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div>***************************************************************</div>
+
+        <input type="button" value="滚动至页面顶部" onClick="Layout.scrollPageTop();" />
+        <script>
+            function onPageLoad() {
+                //如果返回False，那么将Loyout不会自动页面加载状态，
+                //需要用户在afterPageLoad中手动调用funcStopPageLoading
+                //console.warn("加载页面中...");
+                return false;
+            }
+
+            function afterPageLoad(funcStopPageLoading) {
+                //console.warn("页面加载完成...");
+            }
+
+            function onPageClose() {
+                //console.warn("页面关闭中...");
+            }
+        </script>
+    </div>
+</body>
+
+</html>

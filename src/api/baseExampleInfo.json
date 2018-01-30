@@ -1,0 +1,66 @@
+{
+    "code": "200",
+    "msg": "",
+    "data": {
+        "total": "3",
+        "rows": [
+            {
+                "ID": "1001",
+                "officeId": "9527",
+                "name": "OPOP 2016",
+                "versionName": "青春版",
+                "softwareNo": "S9212",
+                "classify": "分类1",
+                "type": "类型1",
+                "productName": "OPOP",
+                "vendor": "美乐高",
+                "source": "国内",
+                "distributeDate": "2016-10-1",
+                "architecture": "B/S",
+                "dataType": "系统",
+                "dataRange": "公开",
+                "dataVersion": "数据同步",
+                "isscan": "是",
+                "isDisable": "是"
+            },
+            {
+                "ID": "1002",
+                "officeId": "9527",
+                "name": "Aske 2007",
+                "versionName": "青春版",
+                "softwareNo": "S4311",
+                "classify": "分类1",
+                "type": "类型1",
+                "productName": "Aske",
+                "vendor": "迪沙利",
+                "source": "国外",
+                "distributeDate": "2007-3-1",
+                "architecture": "B/S",
+                "dataType": "系统",
+                "dataRange": "公开",
+                "dataVersion": "数据同步",
+                "isscan": "是",
+                "isDisable": "是"
+            },
+            {
+                "ID": "1003",
+                "officeId": "9527",
+                "name": "华强 2016",
+                "versionName": "定制版",
+                "softwareNo": "S8711",
+                "classify": "分类1",
+                "type": "类型1",
+                "productName": "华强",
+                "vendor": "深圳华强科技有限公司",
+                "source": "国内",
+                "distributeDate": "2016-5-1",
+                "architecture": "混合",
+                "dataType": "系统",
+                "dataRange": "公开",
+                "dataVersion": "数据同步",
+                "isscan": "是",
+                "isDisable": "是"
+            }
+        ]
+    }
+}

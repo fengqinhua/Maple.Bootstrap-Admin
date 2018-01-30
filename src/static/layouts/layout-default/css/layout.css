@@ -1,5 +1,15 @@
 /* 通用 */
 
+div.center,
+p.center,
+img.center {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  float: none !important;
+  display: block;
+  text-align: center;
+}
+
 /* label */
 
 .label-pill {
@@ -14,6 +24,7 @@
 }
 
 /* 顶部 */
+
 .navbar {
   border-width: 0;
   border-radius: 0;
@@ -46,6 +57,7 @@
 }
 
 /* 左侧菜单栏 */
+
 .sidebar-nav {
   min-height: 0;
   box-shadow: 0 0 10px #BDBDBD;
@@ -54,9 +66,174 @@
   padding-bottom: 0;
   max-height: none;
 }
+
 @media only screen and (min-width: 768px) {
   .sidebar-nav.collapse {
     display: block;
     visibility: visible;
   }
+}
+
+/* 表单页面 */
+
+.x_panel {
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  display: inline-block;
+  background: #fff;
+  border: 1px solid #E6E9ED;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #BDBDBD;
+  -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+  opacity: 1;
+  transition: all .2s ease;
+}
+
+.x_title {
+  margin-bottom: 10px;
+  padding: 1px 5px 6px;
+  border-bottom: 2px solid #E6E9ED;
+}
+
+.x_title h2 {
+  margin: 5px 0 6px;
+  float: left;
+  display: block;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+@media (max-width:1200px) {
+  .x_title h2 {
+    width: 62%;
+    font-size: 17px;
+  }
+}
+
+@media (max-width:1270px) and (min-width:192px) {
+  .x_title h2 small {
+    display: none;
+  }
+}
+
+.x_content {
+  padding: 0 5px 6px;
+  /* float: left; */
+  clear: both;
+  margin-top: 5px;
+}
+
+.x_content h4 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.x_title h2 small {
+  margin-left: 10px;
+}
+
+.x_title span {
+  color: #BDBDBD;
+}
+
+.panel_toolbox {
+  float: right;
+  min-width: 50px;
+}
+
+.panel_toolbox>li {
+  float: left;
+  cursor: pointer;
+}
+
+.panel_toolbox>li>a {
+  padding: 5px;
+  color: #C5C7CB;
+  font-size: 14px;
+}
+
+.panel_toolbox>li>a:hover {
+  background: #F5F7FA;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-horizontal .form-group {
+  margin-right: 0;
+  margin-left: 0;
+  margin-bottom: 10px;
+}
+
+.form-horizontal .control-label {
+  padding-top: 8px;
+}
+
+.form-control {
+  /* border-radius: 0;
+  width: 100%; */
+}
+
+.form-control:focus {
+  border-color: #CCD0D7;
+  box-shadow: none !important;
+}
+
+/* 页面加载等待 */
+
+.page-loading {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 125px;
+  margin-left: -60px;
+  margin-top: -30px;
+  padding: 7px;
+  text-align: center;
+  color: #333;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  background-color: #eee;
+  vertical-align: middle;
+  -webkit-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+}
+
+.page-loading>span {
+  line-height: 20px;
+  vertical-align: middle;
+}
+
+/* 异常提示 */
+
+.error-text {
+  padding: 120px 0;
+  display: block;
+  font-size: 13px;
+  line-height: 1.53846154;
+  text-align: center;
+}
+
+.error-text .glyphicon-exclamation-sign {
+  font-size: 42px;
+  display: block;
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
+  margin: 0 auto;
+}
+
+/* Firefox 浏览器对 fieldset 元素设置了一些影响 width 属性的样式，
+   导致响应式表格出现问题。可以使用下面提供的针对 Firefox 的 hack 代码解决 */
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
 }

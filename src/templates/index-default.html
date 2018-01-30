@@ -12,7 +12,13 @@
     <meta content="fengqinhua2016@163.com" name="author" />
     <!-- 第三方组件样式 -->
     <link href="../static/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="../static/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link id="bootstrap-theme" href="../static/global/plugins/bootstrap/theme/bootstrap-blue.min.css" rel="stylesheet" type="text/css">
+    <link href="../static/global/plugins/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../static/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" />
+    <link href="../static/global/plugins/nprogress-0.2.0/nprogress.css" rel="stylesheet" />
+    <link href="../static/global/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+    <link href="../static/global/plugins/chosen/chosen.min.css" rel="stylesheet" />
+    <link href="../static/global/plugins/bootstrap-chosen/bootstrap-chosen.css" rel="stylesheet" />
     <!-- 自定义的CSS组件 -->
     <link href="../static/global/css/app.css" rel="stylesheet">
     <link href="../static/layouts/layout-default/css/layout.css" rel="stylesheet">
@@ -36,9 +42,9 @@
     <!--[if lt IE 8]>
         <div class="alert alert-danger text-center" style="margin-bottom: 0;border-radius: 0;">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
     <![endif]-->
-    <div class="navbar navbar-default" role="navigation">
+    <div class="navbar navbar-default" id="myPageHeader" role="navigation">
         <div class="navbar-inner">
-            <button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target="#page-navbar-collapse">
+            <button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target="#myNavbar">
                 <span class="sr-only">导航</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -67,7 +73,8 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown">
-                        <i class="glyphicon glyphicon-user"></i> 管理员
+                        <i class="glyphicon glyphicon-user"></i>
+                        <span id="myUserName">Maple</span>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu pull-right" role="menu">
@@ -90,87 +97,20 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2 col-lg-2">
-                <div class="sidebar-nav collapse" id="page-navbar-collapse">
+                <div class="sidebar-nav collapse" id="myNavbar">
                     <nav class="menu" data-ride="menu">
-                        <ul id="treeMenu" class="tree tree-menu" data-ride="tree">
+                        <ul class="tree tree-menu" id="myTreeMenu">
                             <li>
-                                <a href="#">
+                                <a href="index-default.html">
                                     <i class="glyphicon glyphicon-th"></i>系统首页</a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <i class="glyphicon glyphicon-cog"></i>常用页面</a>
-                                <ul>
-                                    <li>
-                                        <a href="#">空白页</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">登录</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">404错误</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">系统设置</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="open">
-                                <a href="#">
-                                    <i class="glyphicon glyphicon-time"></i>组件示例</a>
-                                <ul>
-                                    <li class="active">
-                                        <a href="#">列表页面1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">列表页面2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">表单页面1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">表单页面2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">弹出窗体</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">系统提示</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="open">
-                                <a href="#">
-                                    <i class="glyphicon glyphicon-tasks"></i>多级菜单</a>
-                                <ul>
-                                    <li>
-                                        <a href="#">
-                                            <i class="glyphicon glyphicon-play"></i>第二级1</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">第三级1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">第三级2</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="glyphicon glyphicon-play"></i>第二级2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="glyphicon glyphicon-ok"></i>第二级3</a>
-                                    </li>
-                                </ul>
-                            </li>
+                        </ul>
+                        </li>
                         </ul>
                     </nav>
                 </div>
             </div>
-            <div class="col-lg-10 col-sm-10">
-                右侧
+            <div class="col-lg-10 col-sm-10" id="myPageContent">
             </div>
         </div>
     </div>
@@ -178,7 +118,18 @@
     <!-- 底部 -->
     <!-- 依赖的第三方JS组件 -->
     <script src="../static/global/plugins/jquery/jquery.js"></script>
+    <script src="../static/global/plugins/jquery/jquery.cookie.js"></script>
     <script src="../static/global/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/global/plugins/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <script src="../static/global/plugins/bootstrap-table/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../static/global/plugins/bootstrap-toastr/toastr.min.js"></script>
+    <script src="../static/global/plugins/nprogress-0.2.0/nprogress.js"></script>
+    <script src="../static/global/plugins/jquery.blockui.min.js"></script>
+    <script src="../static/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+    <script src="../static/global/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+    <script src="../static/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="../static/global/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.js"></script>
+    <script src="../static/global/plugins/chosen/chosen.jquery.min.js"></script>
     <!-- 自定义的JS组件 -->
     <script src="../static/global/js/app.js"></script>
     <script src="../static/layouts/layout-default/js/layout.js"></script>
