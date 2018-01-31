@@ -45,42 +45,41 @@
             <div class="clearfix"></div>
         </div>
         <div class="x_content">
-            <div class="row form-horizontal form-label-left">
+            <form class="row form-horizontal" id="bssw-s-form">
                 <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                    <label class="control-label col-md-4 col-sm-4 col-xs-12">XX名称</label>
+                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="bssw-s-name">XX名称</label>
                     <div class="col-md-8 col-sm-8 col-xs-12">
-                        <input type="text" class="form-control" id="bssw-s-name" placeholder="XX名称">
+                        <input type="text" class="form-control" id="bssw-s-name" name="bssw-s-name" placeholder="XX名称">
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                    <label class="control-label col-md-4 col-sm-4 col-xs-12">产品名称</label>
+                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="bssw-s-productName">产品名称</label>
                     <div class="col-md-8 col-sm-8 col-xs-12">
-                        <input type="text" class="form-control" id="bssw-s-productName" placeholder="产品名称">
+                        <input type="text" class="form-control" id="bssw-s-productName" name="bssw-s-productName" placeholder="产品名称">
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                    <label class="control-label col-md-4 col-sm-4 col-xs-12">供应商</label>
+                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="bssw-s-vendor">供应商</label>
                     <div class="col-md-8 col-sm-8 col-xs-12">
-                        <input type="text" class="form-control" id="bssw-s-vendor" placeholder="供应商">
+                        <input type="text" class="form-control" id="bssw-s-vendor" name="bssw-s-vendor" placeholder="供应商">
                     </div>
                 </div>
 
                 <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                    <label class="control-label col-md-4 col-sm-4 col-xs-12">XX分类</label>
+                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="bssw-s-classify">XX分类</label>
                     <div class="col-md-8 col-sm-8 col-xs-12">
-                        <select id="bssw-s-classify" class="form-control  chosen-select">
+                        <select id="bssw-s-classify" name="bssw-s-classify" class="form-control  chosen-select">
                             <option value=""></option>
                             <option value="分类1">分类1</option>
                             <option value="分类2">分类2</option>
                             <option value="分类3">分类3</option>
                         </select>
-
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                    <label class="control-label col-md-4 col-sm-4 col-xs-12">XX类型</label>
+                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="bssw-s-type">XX类型</label>
                     <div class="col-md-8 col-sm-8 col-xs-12">
-                        <select id="bssw-s-type" class="form-control  chosen-select">
+                        <select id="bssw-s-type" name="bssw-s-type" class="form-control  chosen-select">
                             <option value=""></option>
                             <option value="类型1">类型1</option>
                             <option value="类型2">类型2</option>
@@ -91,12 +90,12 @@
                 <div class="col-md-4 col-sm-12 col-xs-12 form-group ">
                     <div class="col-md-4 col-sm-4 col-xs-12"></div>
                     <div class="col-md-8 col-sm-8 col-xs-12 text-left">
-                        <button class="btn btn-primary" id="bssw-search">
+                        <button class="btn btn-primary" id="bssw-search" type="button">
                             <i class="glyphicon glyphicon-search"></i> 搜索
                         </button>
                     </div>
                 </div>
-            </div>
+            </form>
             <div id="bssw-toolbar">
                 <div class="btn-group">
                     <button class="btn btn-primary" id="bssw-add">

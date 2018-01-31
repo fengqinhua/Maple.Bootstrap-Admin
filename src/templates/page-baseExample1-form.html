@@ -45,48 +45,50 @@
             <div class="clearfix"></div>
         </div>
         <div class="x_content">
-            <div class="row form-horizontal form-label-left">
-                <div class="col-md-6 col-sm-12 col-xs-12 form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">XX名称</label>
-                        <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" class="form-control" id="bssw-s-name" placeholder="XX名称">
-                        </div>
-                </div>
-                <div class="col-md-6 col-sm-12 col-xs-12 form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">XX名称</label>
-                        <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input type="text" class="form-control" id="bssw-s-name" placeholder="XX名称">
-                        </div>
-                </div>
-                <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                    <label class="control-label col-md-4 col-sm-4 col-xs-12">产品名称</label>
-                    <div class="col-md-8 col-sm-8 col-xs-12">
-                        <input type="text" class="form-control" id="bssw-s-productName" placeholder="产品名称">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-softwareNo">XX编号
+                        <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="bssw-f-softwareNo" required="required" class="form-control col-md-7 col-xs-12">
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                    <label class="control-label col-md-4 col-sm-4 col-xs-12">供应商</label>
-                    <div class="col-md-8 col-sm-8 col-xs-12">
-                        <input type="text" class="form-control" id="bssw-s-vendor" placeholder="供应商">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-name">XX名称
+                        <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="bssw-f-name" required="required" class="form-control col-md-7 col-xs-12">
                     </div>
                 </div>
-
-                <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                    <label class="control-label col-md-4 col-sm-4 col-xs-12">XX分类</label>
-                    <div class="col-md-8 col-sm-8 col-xs-12">
-                        <select id="bssw-s-classify" class="form-control  chosen-select">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-versionName">XX版本
+                        <span class="unrequired"></span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="bssw-f-versionName" class="form-control col-md-7 col-xs-12">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-classify">XX分类
+                        <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select id="bssw-f-classify" required="required" class="form-control col-md-7 col-xs-12 chosen-select">
                             <option value=""></option>
                             <option value="分类1">分类1</option>
                             <option value="分类2">分类2</option>
                             <option value="分类3">分类3</option>
                         </select>
-
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                    <label class="control-label col-md-4 col-sm-4 col-xs-12">XX类型</label>
-                    <div class="col-md-8 col-sm-8 col-xs-12">
-                        <select id="bssw-s-type" class="form-control  chosen-select">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-type">XX类型
+                        <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select id="bssw-f-type" required="required" class="form-control col-md-7 col-xs-12 chosen-select">
                             <option value=""></option>
                             <option value="类型1">类型1</option>
                             <option value="类型2">类型2</option>
@@ -94,44 +96,77 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12 col-xs-12 form-group ">
-                    <div class="col-md-4 col-sm-4 col-xs-12"></div>
-                    <div class="col-md-8 col-sm-8 col-xs-12 text-left">
-                        <button class="btn btn-primary" id="bssw-search">
-                            <i class="glyphicon glyphicon-search"></i> 搜索
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-productName">产品名称
+                        <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="bssw-f-productName" required="required" class="form-control col-md-7 col-xs-12">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-source">XX来源
+                        <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select id="bssw-f-source" required="required" class="form-control col-md-7 col-xs-12 chosen-select">
+                            <option value=""></option>
+                            <option value="国内">国内</option>
+                            <option value="国外">国外</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-distributeDate">发布时间
+                        <span class="unrequired"></span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="bssw-f-distributeDate" class="form-control col-md-7 col-xs-12 date-picker">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-architecture">系统架构
+                        <span class="unrequired"></span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select id="bssw-f-architecture" class="form-control col-md-7 col-xs-12 chosen-select">
+                            <option value=""></option>
+                            <option value="B/S">B/S</option>
+                            <option value="C/S">C/S</option>
+                            <option value="混合">混合</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-source">扫描设置
+                        <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="input-group skin skin-minimal">
+                            <div class="icheck-inline">
+                                <label>
+                                    <input type="radio" name="bssw-f-isscan" checked class="flat"> 扫描 </label>
+                                <label>
+                                    <input type="radio" name="bssw-f-isscan" class="flat"> 不扫描 </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                        <button class="btn btn-primary" id="bssw-f-save"> 保存
+                        </button>
+                        <button class="btn btn-default" id="bssw-f-saveandadd">保存并新增
+                        </button>
+                        <button class="btn btn-default" id="bssw-f-cancel">返回
                         </button>
                     </div>
                 </div>
             </div>
-            <div id="bssw-toolbar">
-                <div class="btn-group">
-                    <button class="btn btn-primary" id="bssw-add">
-                        <i class="glyphicon glyphicon-plus"></i> 新增
-                    </button>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-default" id="bssw-sync">
-                        <i class="glyphicon glyphicon-cloud-download"></i> 同步
-                    </button>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-default" id="bssw-export">
-                        <i class="glyphicon glyphicon-export"></i> 导出
-                    </button>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-default" id="bssw-import">
-                        <i class="glyphicon glyphicon-import"></i> 导入
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <table id="bssw-table"></table>
-                </div>
-            </div>
         </div>
     </div>
+    <script src="../static/pages/baseExample1_form.js"></script>
 </body>
 
 </html>

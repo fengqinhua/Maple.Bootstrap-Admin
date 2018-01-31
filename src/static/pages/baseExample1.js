@@ -26,43 +26,51 @@ var baseExample1 = function () {
                 field: "softwareNo",
                 title: "XX编码",
                 align: "left",
-                valign: "middle"
+                valign: "middle",
+                sortable : true
             }, {
                 field: "name",
                 title: "XX名称",
                 align: "left",
                 valign: "middle",
-                formatter: nameFormatter
+                formatter: nameFormatter,
+                sortable : true
             }, {
                 field: "classify",
                 title: "XX分类",
                 align: "center",
-                valign: "middle"
+                valign: "middle",
+                sortable : true
             }, {
                 field: "productName",
                 title: "产品名称",
                 align: "left",
-                valign: "middle"
+                valign: "middle",
+                sortable : true
             }, {
                 field: "vendor",
                 title: "供应商",
                 align: "left",
-                valign: "middle"
+                valign: "middle",
+                sortable : true
             }, {
                 field: "source",
                 title: "来源",
                 align: "center",
-                valign: "middle"
+                valign: "middle",
+                sortable : true
             }, {
                 field: "distributeDate",
                 title: "发布时间",
                 align: "center",
-                valign: "middle"
+                valign: "middle",
+                sortable : true
             }, {
                 field: "isscan",
                 title: "是否扫描",
                 align: "center",
-                valign: "middle"
+                valign: "middle",
+                sortable : true
             }, {
                 field: "operate",
                 title: "操作",
@@ -91,17 +99,12 @@ var baseExample1 = function () {
 
     //获取表格查询参数
     var queryParams = function (params) {
-        var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-            PageSize: params.pageSize, //页面大小
-            Page: params.pageNumber, //页码
-            SortName: params.sort,
-            SortOrder: params.order,
-            S_Name: $("#bssw-s-name").val(),
-            S_Classify: $("#bssw-s-classify").val(),
-            S_Type: $("#bssw-s-type").val(),
-            S_ProductName: $("#bssw-s-productName").val(),
-            S_Vendor: $("#bssw-s-vendor").val()
-        };
+        var temp = $("#bssw-s-form").serializeJson();
+        temp["PageSize"] = params.pageSize;
+        temp["Page"] = params.pageNumber;
+        temp["SortName"] = params.sortName;
+        temp["SortOrder"] = params.sortOrder;
+
         return temp;
     };
 
@@ -127,6 +130,8 @@ var baseExample1 = function () {
     };
 
     var bindPageElement = function () {
+        //判断本地存储中是否有页面上一次访问时保存的参数，如果有则加载之
+
         //初始化下拉菜单
         $(".chosen-select").chosen({
             allow_single_deselect: true,
@@ -142,7 +147,7 @@ var baseExample1 = function () {
         });
 
         $("#bssw-add").on("click", function () {
-            alert("新增");
+            addOrEdit();
         });
 
         $("#bssw-sync").on("click", function () {
@@ -160,7 +165,11 @@ var baseExample1 = function () {
 
     //新增或修改
     var addOrEdit = function (pkey) {
-        alert("修改" + pkey);
+        //先使用本地存储保存当前页面状态
+
+        //再执行页面打开
+        var params = pkey ? ("?pkey=" + pkey) : "";
+        Layout.openModule("#../templates/page-baseExample1-form.html" + params);
     };
 
     //设置规则

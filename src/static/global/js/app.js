@@ -67,7 +67,15 @@ var App = function () {
             //读取查询参数
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
             var r = window.location.search.substr(1).match(reg);
-            if (r !== null) return unescape(r[2]);
+            if (r !== null) {
+                return unescape(r[2]);
+            }else{
+                var items = window.location.hash.split("?");
+                if(items.length >1){
+                    r = items[items.length-1].match(reg);
+                    if (r !== null) return unescape(r[2]);
+                }
+            }
             return defaultValue;
         },
         isExternalUrl: function (url) {
@@ -213,6 +221,27 @@ jQuery(document).ready(function () {
 
 })();
 
+/* ========================================================================
+ * 扩展jquery插件功能，实现序列化Json数据的方法
+ * ======================================================================== */
+(function($){  
+    $.fn.serializeJson=function(){  
+        var serializeObj={};  
+        var array=this.serializeArray();  
+        $(array).each(function(){  
+            if(serializeObj[this.name]){  
+                if($.isArray(serializeObj[this.name])){  
+                    serializeObj[this.name].push(this.value);  
+                }else{  
+                    serializeObj[this.name]=[serializeObj[this.name],this.value];  
+                }  
+            }else{  
+                serializeObj[this.name]=this.value;   
+            }  
+        });  
+        return serializeObj;  
+    };  
+})(jQuery);  
 
 /* ========================================================================
  * storeb.js
