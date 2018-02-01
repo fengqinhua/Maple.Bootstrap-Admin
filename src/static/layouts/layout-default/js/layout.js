@@ -142,7 +142,7 @@ var Layout = function () {
                 openPageAsyn(url);
             }
         } else {
-            if (App.isExternalUrl(url)) {
+            if (maple.isExternalUrl(url)) {
                 window.open(url, "_blank");
             } else {
                 window.location.href = url;
@@ -212,11 +212,11 @@ var Layout = function () {
 
         //开始加载
         //打开等待动画DIV
-        App.startPageLoading();
-        // App.startPageLoading({
+        // maple.progress.configure({
         //     img: "../static/layouts/layout-default/img/loading-spinner-grey.gif",
         //     message: "加载中..."
         // });
+        maple.progress.startPageLoading();
 
         //执行页面加载
         loadPageInfo(url, function (data, dataType) {
@@ -234,7 +234,7 @@ var Layout = function () {
                         content: data,
                         error: e
                     });
-                    tips("系统提示", (e && e.message) ? e.message : "发生未处理的异常", 2);
+                    maple.msg.error((e && e.message) ? e.message : "发生未处理的异常", "系统提示");
                 }
             } else if (dataType === "error") {
                 $myPageContent.html(pageLoadErrorMsg);
@@ -282,7 +282,7 @@ var Layout = function () {
                     if (debug) console.warn("Page data has error: ", {
                         error: e
                     });
-                    tips("系统提示", (e && e.message) ? e.message : "发生未处理的异常", 2);
+                    maple.msg.error((e && e.message) ? e.message : "发生未处理的异常", "系统提示");
                 }
                 endPageLoad();
             }
@@ -296,7 +296,7 @@ var Layout = function () {
     var endPageLoad = function () {
         isPageOpening = false;
         hasOpenedPage = true;
-        App.stopPageLoading();
+        maple.progress.stopPageLoading();
     };
 
     //加载页面并执行后处理
@@ -332,40 +332,12 @@ var Layout = function () {
             }
         }
     };
-
-    //弹出短消息
-    var tips = function (title, msg, type) {
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "positionClass": "toast-top-center",
-            "onclick": null,
-            "showDuration": "1000",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
-        //头部提示,1、success 2、error 3、warning other、info
-        if (type == 1) {
-            toastr.success(msg, title);
-        } else if (type == 2) {
-            toastr.error(msg, title);
-        } else if (type == 3) {
-            toastr.warning(msg, title);
-        } else {
-            toastr.info(msg, title);
-        }
-    };
-
+ 
     return {
         init: function () {
             $body = $("body");
             $myPageContent = $("#myPageContent");
-            // App.UseNprogress({
+            // maple.progress.UseNprogress({
             //     parent: "#myPageContent"
             // });
             checkSupportHashChange(); //检测浏览器是否支持HashChange事件
@@ -381,7 +353,6 @@ var Layout = function () {
         },
         openModule: openModule,
         refrashModule: refrashModule,
-        tips: tips,
         getDatatableDefaultOptions: function () {
             //获取Bootstrap Table绑定时的缺省设置
             return {
@@ -409,7 +380,7 @@ var Layout = function () {
                     if (res && res.code && res.data && res.code == "200") {
                         return res.data;
                     } else {
-                        tips("系统提示", res.msg ? res.msg : "数据加载异常", 2);
+                        maple.msg.error(res.msg ? res.msg : "数据加载异常", "系统提示");
                         return {
                             "total": "0",
                             "rows": []
@@ -417,7 +388,7 @@ var Layout = function () {
                     }
                 },
                 onLoadError: function (status) {
-                    tips("系统提示", status ? status : "数据加载异常", 2);
+                    maple.msg.error(status ? status : "数据加载异常", "系统提示");
                 }
             };
         }

@@ -1,106 +1,323 @@
 /* ========================================================================
- * Maple: App.js [1.0.0]
+ * Maple: maple.js [1.0.0]
  * https://github.com/fengqinhua/Maple.Bootstrap-Admin
+ * 功能说明：
+ *     实现常用函数的封装
+ * 
  * ========================================================================
  * Copyright (c) 2018; Licensed MIT
  *
  * ! Some code copy from zui 1.8.1 by QingDao Nature Easy Soft Network Technology Co,LTD  @easysoft cnezsoft.com. (Copyright (c) 2018 cnezsoft.com; Licensed MIT)
- * ! The file has been changed in Maple. It will not keep update with the ZUI version in the future.
+ * ! & iTsai-Webtools by Chiroc The file has been changed in Maple. It will not keep update with the ZUI version in the future.
  * ======================================================================== */
 
+
+/* ========================================================================
+ * 基础类库 string,Array 的扩展方法
+ * ======================================================================== */
 ;
-var App = function () {
-    var isIE8 = false;
-    var isIE9 = false;
-    var isIE10 = false;
-    var storageEnable = false; //是否可以使用本地存储  
+(function () {
+    "use strict";
 
-    // 初始化设置
-    var handleInit = function () {
-        isIE8 = !!navigator.userAgent.match(/MSIE 8.0/);
-        isIE9 = !!navigator.userAgent.match(/MSIE 9.0/);
-        isIE10 = !!navigator.userAgent.match(/MSIE 10.0/);
-
-        if (isIE10) {
-            $("html").addClass("ie10"); // detect IE10 version
-        }
-
-        if (isIE10 || isIE9 || isIE8) {
-            $("html").addClass("ie"); // detect IE10 version
-        }
-    };
-    //调整ajax默认设置
-    var ajaxDefaultSetting = function () {
-        $.ajaxSetup({
-            cache: false
-        });
-    };
-    //检查是否可以使用本地存储
-    var checkLocalDB = function () {
-        storageEnable = App.store && App.store.enable;
-    };
-
-    return {
-        init: function () {
-            handleInit();
-            checkLocalDB(); //检查是否可以使用本地存储
-            ajaxDefaultSetting(); //设置ajax的默认参数
-        },
-        getViewPort: function () {
-            // 获取视图大小
-            var e = window,
-                a = "inner";
-            if (!("innerWidth" in window)) {
-                a = "client";
-                e = document.documentElement || document.body;
-            }
-
-            return {
-                width: e[a + "Width"],
-                height: e[a + "Height"]
-            };
-        },
-        getCurrentUrl: function () {
-            return window.location.href.split('#')[0].split('?')[0];
-        },
-        getQueryString: function (name, defaultValue) {
-            //读取查询参数
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-            var r = window.location.search.substr(1).match(reg);
-            if (r !== null) {
-                return unescape(r[2]);
-            }else{
-                var items = window.location.hash.split("?");
-                if(items.length >1){
-                    r = items[items.length-1].match(reg);
-                    if (r !== null) return unescape(r[2]);
-                }
-            }
-            return defaultValue;
-        },
-        isExternalUrl: function (url) {
-            //判断url是否为外部的链接
-            if (typeof url === "string") {
-                url = url.toLowerCase();
-                return url.startsWith("http://") || url.startsWith("https://");
+    //  判断是否为数字
+    if (!String.prototype.isNum) {
+        String.prototype.isNum = function (s) {
+            if (s !== null) {
+                var r, re;
+                re = /\d*/i;
+                r = s.match(re);
+                return (r == s) ? true : false;
             }
             return false;
-        },
-        isIE8: function () {
-            //检查是否为IE8
-            return isIE8;
-        },
-        isIE9: function () {
-            //检查是否为IE9
-            return isIE9;
-        },
-        isStorageEnable: function () {
-            //本地存储是否可用
-            return storageEnable;
-        },
-        //开始加载等待
-        startPageLoading: function (options) {
+        };
+    };
+
+    //  判断是否以 searchString 结尾
+    if (!String.prototype.endsWith) {
+        String.prototype.endsWith = function (searchString, position) {
+            var subjectString = this.toString();
+            if (position === undefined || position > subjectString.length) {
+                position = subjectString.length;
+            }
+            position -= searchString.length;
+            var lastIndex = subjectString.indexOf(searchString, position);
+            return lastIndex !== -1 && lastIndex === position;
+        };
+    };
+
+    //  判断是否以 searchString 开始
+    if (!String.prototype.startsWith) {
+        String.prototype.startsWith = function (searchString, position) {
+            position = position || 0;
+            return this.lastIndexOf(searchString, position) === position;
+        };
+    };
+
+    //  判断是否包含 searchString
+    if (!String.prototype.includes) {
+        String.prototype.includes = function () {
+            return String.prototype.indexOf.apply(this, arguments) !== -1;
+        };
+    };
+
+    //  去掉字符串前面和最后的空格
+    if (!String.prototype.trim) {
+        String.prototype.trim = function () {
+            return this.replace(/(^\s*)|(\s*$)/g, "");
+        };
+    };
+
+    //  去掉字符串中所有的空格
+    if (!String.prototype.trimBlanks) {
+        String.prototype.trimBlanks = function () {
+            return this.replace(/(\s*)/g, "");
+        };
+    };
+
+    //格式化字符串,将{n},替换为对应的参数
+    //如：'I {0}&{1} China.'.formatArgs('love','like'); 输出："I love&like China."
+    if (!String.prototype.formatArgs) {
+        String.prototype.formatArgs = function () {
+            var thiz = this;
+            for (var i = 0; i < arguments.length; i++) {
+                var param = "\{" + i + "\}";
+                thiz = thiz.replace(param, arguments[i]);
+            }
+            return thiz;
+        };
+    };
+    /**
+     * 判断数据中是否存在cell值，并返回第一个存在的位置
+     * 
+     * @method indexOf
+     * @param {String/Number} cell 数组元素值
+     * @returns {Number} 查询成功返回0-n的索引号，失败返回-1
+     */
+    if (!Array.prototype.indexOf) {
+        Array.prototype.indexOf = function (cell) {
+            for (var i = 0, len = this.length; i < len; i++) {
+                if (this[i] === cell)
+                    return i;
+            }
+            return -1;
+        };
+    };
+
+})();
+
+/* ========================================================================
+ * maple.js
+ * 定义浏览器，视窗，URL相关的基础函数
+ * ======================================================================== */
+;
+(function () {
+    'use strict';
+
+    //获取URL中包含的参数信息
+    var getUrlParameter = function (name, url) {
+        var paramStr = url || window.location.search;
+        if (paramStr.length == 0) {
+            return null;
+        }
+        if (paramStr.charAt(0) == "?") {
+            paramStr = unescape(paramStr).substring(1);
+        }
+        if (paramStr.length == 0) {
+            return null;
+        }
+        var params = paramStr.split('&');
+        for (var i = 0; i < params.length; i++) {
+            var parts = params[i].split('=', 2);
+            if (parts[0] == name) {
+                if (parts.length < 2 || typeof (parts[1]) === "undefined" ||
+                    parts[1] == "undefined" || parts[1] == "null")
+                    return '';
+                return parts[1];
+            }
+        }
+        return null;
+    };
+
+    //获取URL中包含的参数信息
+    var getPageQueryString = function (name, defaultValue) {
+        //读取查询参数
+        var result = getUrlParameter(name, window.location.search);
+        if (result != null) return result;
+
+        var items = window.location.hash.split("?");
+        if (items.length > 1) {
+            result = getUrlParameter(name, items[items.length - 1]);
+            if (result != null) return result;
+        }
+        return defaultValue;
+    };
+
+    //设置为主页
+    var setHomepage = function (url) {
+        url = (url ? url : location.href);
+        if (document.all) {
+            document.body.style.behavior = "url(#default#homepage)";
+            document.body.setHomePage(url);
+        } else if (window.sidebar) {
+            if (window.netscape) {
+                try {
+                    window.netscape.security.PrivilegeManager
+                        .enablePrivilege("UniversalXPConnect");
+                } catch (e) {
+                    alert("此操作被浏览器拒绝！请在地址栏输入\"about:config\"并回车然后将[signed.applets.codebase_principal_support]的值设置为true");
+                }
+            }
+            try {
+                var prefs = Components.classes["@mozilla.org/preferences-service;1"]
+                    .getService(Components.interfaces.nsIPrefBranch);
+                prefs.setCharPref("browser.startup.homepage", url);
+            } catch (e) {
+                alert("设置失败");
+            }
+        } else {
+            alert("请用Ctrl+D将地址添加到收藏夹");
+        }
+        return this;
+    };
+
+    //获取浏览器信息
+    //获取IE11存在Bug
+    var getAgent = function () {
+        var browser = {},
+            ua = navigator.userAgent.toLowerCase(),
+            rMsie = /(msie\s|trident.*rv:)([\w.]+)/,
+            rFirefox = /(firefox)\/([\w.]+)/,
+            rOpera = /(opera).+version\/([\w.]+)/,
+            rChrome = /(chrome)\/([\w.]+)/,
+            rSafari = /version\/([\w.]+).*(safari)/;
+
+        var name = "",
+            version = "0";
+
+        var match = rMsie.exec(ua);
+        if (match != null) {
+            name = "IE";
+            version = match[2] || "0";
+        }
+        var match = rFirefox.exec(ua);
+        if (match != null) {
+            name = match[1] || "";
+            version = match[2] || "0";
+        }
+        var match = rOpera.exec(ua);
+        if (match != null) {
+            name = match[1] || "";
+            version = match[2] || "0";
+        }
+        var match = rChrome.exec(ua);
+        if (match != null) {
+            name = match[1] || "";
+            version = match[2] || "0";
+        }
+        var match = rSafari.exec(ua);
+        if (match != null) {
+            name = match[2] || "";
+            version = match[1] || "0";
+        }
+
+        return {
+            name: name,
+            version: version.split(".")[0],
+            versions: version
+        };
+    };
+
+    if (!window.maple) {
+        window.maple = {
+            version: "0.1.0",
+            toString: function () {
+                //显示当前对象名称路径
+                return "maple";
+            },
+            setHomepage: setHomepage,
+            getAgent: getAgent,
+            getHost: function () {
+                //获取服务器IP或者域名
+                return window.location.host.split(":")[0];
+            },
+            getLang: function () {
+                //获取浏览器语言代码
+                var nav = window.navigator;
+                return (nav.language || nav.userLanguage);
+            },
+            getViewPort: function () {
+                // 获取视图大小
+                var e = window,
+                    a = "inner";
+                if (!("innerWidth" in window)) {
+                    a = "client";
+                    e = document.documentElement || document.body;
+                }
+
+                return {
+                    width: e[a + "Width"],
+                    height: e[a + "Height"]
+                };
+            },
+            getPageUrl: function () {
+                //获取当前URL
+                return window.location.href.split("#")[0].split("?")[0];
+            },
+            getPageQueryString: getPageQueryString,
+            goPrevPage: function () {
+                history.go(-1);
+                return this;
+            },
+            goNextPage: function () {
+                history.go(1);
+                return this;
+            },
+            refreshPage: function () {
+                history.go(0);
+                return this;
+            },
+            isExternalUrl: function (url) {
+                //判断url是否为外部的链接
+                if (typeof url === "string") {
+                    url = url.toLowerCase();
+                    return url.startsWith("http://") || url.startsWith("https://");
+                }
+                return false;
+            },
+            preventDefault: function (e) {
+                //阻止浏览器默认行为
+                if (e && e.preventDefault) {
+                    e.preventDefault();
+                } else {
+                    // ie
+                    window.event.returnValue = false;
+                }
+                return false;
+            }
+        };
+    }
+})();
+
+/* ========================================================================
+ * maple.progress.js
+ * 定义 加载动画 相关的函数
+ * 依赖NProgress实现
+ * ======================================================================== */
+;
+(function () {
+    'use strict';
+    var configure = function (options) {
+        if (typeof NProgress != 'undefined') {
+            var opts = $.extend(true, { parent: "body" }, options);
+            NProgress.configure({ parent: '#container' });
+        }
+    };
+
+    //开始加载动画
+    var startPageLoading = function () {
+        if (typeof NProgress != 'undefined') {
             NProgress.start();
+        } else {
             // $(".page-loading").remove();
             // if (options) {
             //     var html = "<div class=\"page-loading\">";
@@ -118,141 +335,312 @@ var App = function () {
             // } else {
             //     $("body").append("<div class=\"page-loading\">&nbsp;&nbsp;<span>加载中...</span></div>");
             // }
-        },
-        //结束加载等待
-        stopPageLoading: function () {
-            NProgress.done();
-            // $(".page-loading").remove();
-        },
-        UseNprogress: function (options) {
-            options = $.extend(true, {}, options);
-            if (options.parent) {
-                NProgress.configure({
-                    parent: options.parent
-                });
-            }
         }
     };
-}();
+    //结束加载动画
+    var stopPageLoading = function () {
+        if (typeof NProgress != 'undefined') {
+            NProgress.done();
+        } else {
+            // $(".page-loading").remove();
+        }
+    };
 
-jQuery(document).ready(function () {
-    App.init(); // init metronic core componets
-});
+    maple.progress = {
+        toString: function () {
+            return 'maple.progress';
+        },
+        configure: configure,
+        startPageLoading: startPageLoading,
+        stopPageLoading: stopPageLoading
+    };
+})();
+/* ========================================================================
+* maple.msg.js
+* 定义页面消息相关的基础函数
+* 依赖 toastr 实现
+* ======================================================================== */
+;
+(function () {
+    'use strict';
+    var defaultOpts = {
+        "closeButton": true,
+        "debug": false,
+        "positionClass": "toast-top-center",
+        "onclick": null,
+        "showDuration": "1000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
 
+    var configure = function (options) {
+        if (typeof toastr != 'undefined') {
+            var opts = $.extend(true, defaultOpts, options);
+            toastr.options = opts;
+        }
+    };
+
+    maple.msg = {
+        toString: function () {
+            return 'maple.msg';
+        },
+        configure: configure,
+        success: function (msg, title) {
+            if (title) title = "系统提示";
+            if (typeof toastr != 'undefined') toastr.success(msg, title);
+        },
+        error: function (msg, title) {
+            if (title) title = "系统提示";
+            if (typeof toastr != 'undefined') toastr.error(msg, title);
+        },
+        warning: function (msg, title) {
+            if (title) title = "系统提示";
+            if (typeof toastr != 'undefined') toastr.warning(msg, title);
+        },
+        info: function (msg, title) {
+            if (title) title = "系统提示";
+            if (typeof toastr != 'undefined') toastr.info(msg, title);
+        },
+        clear: function () {
+            if (typeof toastr != 'undefined') toastr.clear();
+        }
+    };
+    //按照系统默认参数进行设置
+    maple.msg.configure();
+})();
 
 /* ========================================================================
- * string.js
+ * maple.form.js
+ * 定义页面表单相关的基础函数
  * ======================================================================== */
+;
 (function () {
     'use strict';
 
     /**
-     * Format string with argument list or object
-     * @param  {object | arguments} args
-     * @return {String}
-     */
-    if (!String.prototype.format) {
-        String.prototype.format = function (args) {
-            var result = this;
-            if (arguments.length > 0) {
-                var reg;
-                if (arguments.length <= 2 && typeof (args) == 'object') {
-                    for (var key in args) {
-                        if (args[key] !== undefined) {
-                            reg = new RegExp('(' + (arguments[1] ? arguments[1].replace('0', key) : '{' + key + '}') + ')', 'g');
-                            result = result.replace(reg, args[key]);
-                        }
-                    }
-                } else {
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i] !== undefined) {
-                            reg = new RegExp('({[' + i + ']})', 'g');
-                            result = result.replace(reg, arguments[i]);
-                        }
-                    }
-                }
+	 * 查找符合条件的输入标签。
+	 *
+	 * @method _findInputs
+	 * @param {Array} inputs jQuery输入标签数组
+	 * @param {String} key 查询关键字
+	 * @return {Array} inputs jQuery对象数组
+	 */
+	var _findInputs = function (inputs, key) {
+		return $(inputs.filter('input[name=' + key + '],input[id=' + key
+			+ '],textarea[name=' + key + '],textarea[id=' + key
+			+ '],select[name=' + key + '],select[id=' + key + ']'));
+    };
+    /**
+	 * 获取合法的输入标签。
+	 *
+	 * @method _filterInputs
+	 * @param {Object} container jQuery对象，标签容器
+	 * @return {Array} inputs jQuery对象数组
+	 */
+	var _filterInputs = function (container) {
+		return $(container
+			.find('input[type!=button][type!=reset][type!=submit][type!=image][type!=file],select,textarea'));
+    };
+    
+	/**
+	 * 将输入控件集合序列化成对象， 名称或编号作为键，value属性作为值。
+	 *
+	 * @method _serializeInputs
+	 * @param {Array} inputs input/select/textarea的对象集合
+	 * @return {Object} json 对象 {key:value,...}
+	 */
+    var _serializeInputs = function (inputs) {
+        var json = {};
+        if (!inputs) {
+            return json;
+        }
+        for (var i = inputs.length - 1; i >= 0; i--) {
+            var input = $(inputs[i]), type = input.attr('type');
+            if (type) {
+                type = type.toLowerCase();
             }
-            return result;
-        };
-    }
+            var tagName = input.get(0).tagName,
+                id = input.attr('id'),
+                name = input.attr('name'),
+                value = null;
+
+            // 如果input未设置ID或NAME，那么则跳出
+            if (typeof id == 'undefined' && typeof name == 'undefined') {
+                continue;
+            }
+
+            // input输入标签
+            if (tagName == 'INPUT' && type) {
+                switch (type) {
+                    case 'checkbox':
+                        value = input.is(':checked');
+                        break;
+                    case 'radio':
+                        if (input.is(':checked')) {
+                            value = input.attr('value');
+                        }else{
+                            continue;      
+                        } 
+                        break;
+                    default:
+                        value = input.val();
+                }
+            } else {
+                // 非input输入标签，如：select,textarea
+                value = input.val();
+            }
+
+            json[name || id] = value;
+        }
+        return json;
+    };
 
     /**
-     * Judge the string is a integer number
-     *
-     * @access public
-     * @return bool
-     */
-    if (!String.prototype.isNum) {
-        String.prototype.isNum = function (s) {
-            if (s !== null) {
-                var r, re;
-                re = /\d*/i;
-                r = s.match(re);
-                return (r == s) ? true : false;
+         * 将值填充到输入标签里面。
+         *
+         * @method _deserializeInputs
+         * @param {Array} inputs 输入标签集合
+         * @param {String/Number} value 值
+         * @return {Object} iTsai.form
+         */
+    var _deserializeInputs = function (inputs, value) {
+        if (!inputs && value == null) {
+            return this;
+        }
+
+        for (var i = inputs.length - 1; i >= 0; i--) {
+            var input = $(inputs[i]);
+            var type = input.attr('type');
+            if (type) {
+                type = type.toLowerCase();
             }
-            return false;
-        };
-    }
-
-    if (!String.prototype.endsWith) {
-        String.prototype.endsWith = function (searchString, position) {
-            var subjectString = this.toString();
-            if (position === undefined || position > subjectString.length) {
-                position = subjectString.length;
+            if (type) {
+                switch (type) {
+                    case 'checkbox':
+                        input.prop('checked', value);
+                        break;
+                    case 'radio':
+                        input.each(function (i) {
+                            var thiz = $(this);
+                            if (thiz.attr('value') == value) {
+                                thiz.prop('checked', true);
+                            }
+                        });
+                        break;
+                    default:
+                        input.val(value);
+                }
+            } else {
+                input.val(value);
             }
-            position -= searchString.length;
-            var lastIndex = subjectString.indexOf(searchString, position);
-            return lastIndex !== -1 && lastIndex === position;
-        };
-    }
+        }
+        return this;
+    };
+ 
+    /**
+	 * 序列化表单值,结果以key/value形式返回key为表单对象名称(name||id),value为其值。<br>
+	 * HTML格式：<br>
+	 * 1).表单容器：通常是一个form表单（如果不存在就以body为父容器）
+	 * 2).输入标签：输入标签为input类型标签（包括：'checkbox','color','date','datetime','datetime-local',<br>
+	 * 'email','file','hidden','month','number','password','radio','range
+	 * ','reset','search','submit',<br>
+	 * 'tel','text','time ','url','week'）。
+	 * 而'button','reset','submit','image'会被过虑掉。
+	 *
+	 * @method serialize
+	 * @param {Object} frm jQuery表单对象
+	 * @return {Object} json对象
+	 */
+    var serialize = function (frm) {
+        frm = frm || $('body');
+        if (!frm) {
+            return {};
+        }
+        var inputs = _filterInputs(frm);
+        return _serializeInputs(inputs);
+    };
+    
+    /**
+	 * 填充表单内容：将json数据形式数据填充到表单内
+	 *
+	 * @method deserialize
+	 * @param {Object} frm jQuery表单对象（或其它容器标签对象，如：div）
+	 * @param {Object} json 序列化好的json数据对象
+	 * @return {Object} iTsai.form
+	 */
+	var deserialize = function (json,frm) {
+		frm = frm || $("body");
+		if(!frm || !json) {
+			return this;
+        }
+        
+        //将所有radio还原为默认值
+        frm.find("input[type=radio]").prop('checked', false);
+        //再执行赋值
+        var inputs = _filterInputs(frm);
+		for (var key in json) {
+            var value = json[key], 
+                input = _findInputs(inputs, key);
+			_deserializeInputs(input, value);
+		}
 
-    if (!String.prototype.startsWith) {
-        String.prototype.startsWith = function (searchString, position) {
-            position = position || 0;
-            return this.lastIndexOf(searchString, position) === position;
-        };
-    }
-
-    if (!String.prototype.includes) {
-        String.prototype.includes = function () {
-            return String.prototype.indexOf.apply(this, arguments) !== -1;
-        };
-    }
-
+		return this;
+    };
+ 
+    maple.form = {
+        toString: function () {
+            return 'maple.form';
+        },
+        serialize: serialize,
+        deserialize: deserialize
+    };
 })();
 
 /* ========================================================================
- * 扩展jquery插件功能，实现序列化Json数据的方法
+ * maple.ajax.js
+ * 定义异步ajax请求相关的基础函数
  * ======================================================================== */
-(function($){  
-    $.fn.serializeJson=function(){  
-        var serializeObj={};  
-        var array=this.serializeArray();  
-        $(array).each(function(){  
-            if(serializeObj[this.name]){  
-                if($.isArray(serializeObj[this.name])){  
-                    serializeObj[this.name].push(this.value);  
-                }else{  
-                    serializeObj[this.name]=[serializeObj[this.name],this.value];  
-                }  
-            }else{  
-                serializeObj[this.name]=this.value;   
-            }  
-        });  
-        return serializeObj;  
-    };  
-})(jQuery);  
+;
+(function (window, $) {
+    'use strict';
+    
+    var defaultOpts = {
+        cache: false
+    };
+    //调整ajax默认设置
+    var ajaxDefaultSetting = function (options) {
+        var opts = $.extend(true, defaultOpts, options);
+        $.ajaxSetup(opts);
+    };
+
+    maple.ajax = {
+        toString: function () {
+            return 'maple.ajax';
+        },
+        ajaxDefaultSetting: ajaxDefaultSetting
+    };
+
+    maple.ajax.ajaxDefaultSetting();
+
+})(window, jQuery);
 
 /* ========================================================================
- * storeb.js
+ * maple.storeb.js
+ * 定义 本地存储 相关的基础函数
  * ======================================================================== */
+;
 (function (window, $) {
     'use strict';
 
-    var lsName = 'localStorage';
+    var lsName = "localStorage";
     var storage,
         dataset,
-        pageName = 'page_' + window.location.pathname + window.location.search;
+        pageName = "page_" + window.location.pathname + window.location.search + window.location.hash;
 
     /* The Store object */
     var Store = function () {
@@ -262,7 +650,7 @@ jQuery(document).ready(function () {
                 this.enable = true;
                 storage = window[lsName];
             }
-        } catch (e) {}
+        } catch (e) { }
         if (!this.enable) {
             dataset = {};
             storage = {
@@ -323,7 +711,7 @@ jQuery(document).ready(function () {
 
     /* Remove page data item */
     Store.prototype.pageRemove = function (key) {
-        if (typeof this.page[key] != 'undefined') {
+        if (typeof this.page[key] != "undefined") {
             this.page[key] = null;
             this.pageSave();
         }
@@ -354,7 +742,7 @@ jQuery(document).ready(function () {
     /* Check enable status */
     Store.prototype.check = function () {
         if (!this.enable) {
-            if (!this.slience) throw new Error('Browser not support localStorage or enable status been set true.');
+            if (!this.slience) throw new Error("Browser not support localStorage or enable status been set true.");
         }
         return this.enable;
     };
@@ -386,8 +774,8 @@ jQuery(document).ready(function () {
     /* Get item value and deserialize it, if value is null and defaultValue been given then return defaultValue */
     Store.prototype.get = function (key, defaultValue) {
         var val = this.deserialize(this.getItem(key));
-        if (typeof val === 'undefined' || val === null) {
-            if (typeof defaultValue !== 'undefined') {
+        if (typeof val === "undefined" || val === null) {
+            if (typeof defaultValue !== "undefined") {
                 return defaultValue;
             }
         }
@@ -440,13 +828,13 @@ jQuery(document).ready(function () {
 
     /* Serialize value with JSON.stringify */
     Store.prototype.serialize = function (value) {
-        if (typeof value === 'string') return value;
+        if (typeof value === "string") return value;
         return JSON.stringify(value);
     };
 
     /* Deserialize value, with JSON.parse if the given value is not a string */
     Store.prototype.deserialize = function (value) {
-        if (typeof value !== 'string') return undefined;
+        if (typeof value !== "string") return undefined;
         try {
             return JSON.parse(value);
         } catch (e) {
@@ -454,18 +842,17 @@ jQuery(document).ready(function () {
         }
     };
 
-    App.store = new Store();
+    maple.store = new Store();
 
-}(window, jQuery));
-
+})(window, jQuery);
 
 /* ========================================================================
  * tree.js
  * ======================================================================== */
 (function ($) {
-    'use strict';
+    "use strict";
 
-    var name = 'maple.tree'; // modal name
+    var name = "maple.tree"; // modal name
     var globalId = 0;
 
     // The tree modal class
@@ -708,10 +1095,10 @@ jQuery(document).ready(function () {
         this._initList(this.$);
 
         var initialState = options.initialState;
-        var isPreserveEnable = App && App.store && App.store.enable;
+        var isPreserveEnable = maple && maple.store && maple.store.enable;
         if (isPreserveEnable) {
             this.selector = name + '::' + (options.name || '') + '#' + (this.$.attr('id') || globalId++);
-            this.store = App.store[options.name ? 'get' : 'pageGet'](this.selector, {});
+            this.store = maple.store[options.name ? 'get' : 'pageGet'](this.selector, {});
         }
         if (initialState === 'preserve') {
             if (isPreserveEnable) this.isPreserve = true;
@@ -761,7 +1148,7 @@ jQuery(document).ready(function () {
             if (expand) this.store[id] = expand;
             else delete this.store[id];
             this.store.time = new Date().getTime();
-            App.store[this.options.name ? 'set' : 'pageSet'](this.selector, this.store);
+            maple.store[this.options.name ? 'set' : 'pageSet'](this.selector, this.store);
         } else {
             var that = this;
             this.store = {};

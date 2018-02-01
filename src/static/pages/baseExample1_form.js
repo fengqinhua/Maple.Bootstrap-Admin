@@ -12,9 +12,9 @@
 var baseExample1_form = function () {
 
     var bindPageElement = function () {
-        var pkey = App.getQueryString("pkey", "");
-        if (pkey != "") {
-            Layout.tips("系统提示","当前是编辑页面，主键标识：" + pkey,1);
+        var pkey = maple.getPageQueryString("pkey", "");
+        if (pkey != "") { 
+            maple.msg.warning("当前是编辑页面，主键标识：" + pkey,"系统提示");
         }
 
         $('input.flat').iCheck({

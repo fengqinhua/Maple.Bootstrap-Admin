@@ -2,236 +2,400 @@
 <html lang="zh-cn">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home Page</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <meta content="" name="description" />
-    <meta content="fengqinhua2016@163.com" name="author" />
-    <!-- 第三方组件样式 -->
-    <link href="../static/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="../static/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <!-- 自定义的CSS组件 -->
-    <link href="../static/global/css/app.css" rel="stylesheet">
-    <link href="../static/layouts/layout-default/css/layout.css" rel="stylesheet">
-    <link id="maple-theme" href="../static/layouts/layout-default/css/themes/blue.css" rel="stylesheet">
-    <!-- 网页图标 -->
-    <link rel="shortcut icon" href="../favicon.ico" />
-    <!--[if lt IE 9]>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home Page</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta content="" name="description" />
+  <meta content="fengqinhua2016@163.com" name="author" />
+  <!-- 第三方组件样式 -->
+  <link href="../static/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="../static/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <!-- 自定义的CSS组件 -->
+  <link href="../static/global/css/app.css" rel="stylesheet">
+  <link href="../static/layouts/layout-default/css/layout.css" rel="stylesheet">
+  <link id="maple-theme" href="../static/layouts/layout-default/css/themes/blue.css" rel="stylesheet">
+  <!-- 网页图标 -->
+  <link rel="shortcut icon" href="../favicon.ico" />
+  <!--[if lt IE 9]>
             <script src="../static/global/plugins/ieonly/html5shiv.js"></script>
             <script src="../static/global/plugins/ieonly/respond.js"></script>
             <script src="../static/global/plugins/ieonly/excanvas.js"></script>
       <![endif]-->
- 
 </head>
 
 <body>
-    <div id="pagecontent">
-        <h1>this is page for test！</h1>
-        <input type="button" value="滚动至当前按钮所在的位置下方20px" onClick="Layout.scrollPageTo($(this),20);" />
-        <input type="button" value="浏览器是否支持本地存储" onClick="alert(App.isStorageEnable?'支持':'不支持');" />
-        <input type="button" value="获得当前URL" onClick="alert(App.getCurrentUrl());" />
-        <input type="button" value="获得URL参数" onClick="alert(App.getQueryString('name','Maple'));" />
-        <input type="button" value="打开首页" onClick="Layout.openModule();" />
-        <input type="button" value="打开列表页A" onClick="Layout.openModule('#../templates/page-list.html');" />
-        <input type="button" value="startPageLoading" onClick="App.startPageLoading();" />
-        <input type="button" value="stopPageLoading" onClick="App.stopPageLoading();" />
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <div class="x_panel">
-                <div class="x_title">
-                  <h2>Form Input Grid <small>form input </small></h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Settings 1</a>
-                        </li>
-                        <li><a href="#">Settings 2</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-  
-                  <div class="row form-horizontal form-label-left">
-  
-                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-12" class="form-control">
-                    </div>
-  
-                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-6" class="form-control">
-                    </div>
-  
-                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-6" class="form-control">
-                    </div>
-  
-  
-                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-4" class="form-control">
-                    </div>
-  
-                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-4" class="form-control">
-                    </div>
-  
-                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-4" class="form-control">
-                    </div>
-  
-  
-                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-3" class="form-control">
-                    </div>
-  
-                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-3" class="form-control">
-                    </div>
-  
-                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-3" class="form-control">
-                    </div>
-  
-                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-3" class="form-control">
-                    </div>
-  
-  
-                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-2" class="form-control">
-                    </div>
-  
-                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-2" class="form-control">
-                    </div>
-  
-                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-2" class="form-control">
-                    </div>
-  
-                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-2" class="form-control">
-                    </div>
-  
-                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-2" class="form-control">
-                    </div>
-  
-                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-2" class="form-control">
-                    </div>
-  
-  
-                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-1" class="form-control">
-                    </div>
-  
-                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-1" class="form-control">
-                    </div>
-  
-                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-1" class="form-control">
-                    </div>
-  
-                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-1" class="form-control">
-                    </div>
-  
-                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-1" class="form-control">
-                    </div>
-  
-                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-1" class="form-control">
-                    </div>
-  
-                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-1" class="form-control">
-                    </div>
-  
-                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-1" class="form-control">
-                    </div>
-  
-                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-1" class="form-control">
-                    </div>
-  
-                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-1" class="form-control">
-                    </div>
-  
-                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-1" class="form-control">
-                    </div>
-  
-                    <div class="col-md-1 col-sm-12 col-xs-12 form-group">
-                      <input type="text" placeholder=".col-md-1" class="form-control">
-                    </div>
-                  </div>
-  
-                </div>
-              </div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <div>***************************************************************</div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <div>***************************************************************</div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <div>***************************************************************</div>
+  <div id="pagecontent">
+    <h1>这是用于演示公用函数的页面！</h1>
+    <h3> 1、浏览器，视窗，URL相关的基础函数 </h3>
+    <input type="button" class="btn btn-default" value="获取当前浏览器信息" onClick="getAgent();" />
+    <input type="button" class="btn btn-default" value="获取当前浏览器语言代码" onClick="alert(maple.getLang());" />
+    <input type="button" class="btn btn-default" value="获取当前视窗大小" onClick="getViewport();" />
+    <input type="button" class="btn btn-default" value="设置为主页" onClick="maple.setHomepage();" />
+    <input type="button" class="btn btn-default" value="获得当前服务器IP或者域名" onClick="alert(maple.getHost());" />
+    <input type="button" class="btn btn-default" value="获得当前URL" onClick="alert(maple.getPageUrl());" />
+    <input type="button" class="btn btn-default" value="获得URL参数" onClick="alert(maple.getPageQueryString('name','Maple'));" />
+    <h3> 2、页面加载动画的基础函数 </h3>
+    <input type="button" class="btn btn-default" value="开始加载" onClick="maple.progress.startPageLoading();" />
+    <input type="button" class="btn btn-default" value="结束加载" onClick="maple.progress.stopPageLoading();" />
+    <h3> 3、页面消息的基础函数 </h3>
+    <input type="button" class="btn btn-default" value="弹出页面消息" onClick="showtips();" />
+    <input type="button" class="btn btn-default" value="清除页面消息" onClick="maple.msg.clear();" />
+    <h3> 4、本地存储 </h3>
+    <input type="button" class="btn btn-default" value="当前页面存储值" onClick="maple.store.pageSet('pagedata','pagedata');" />
+    <input type="button" class="btn btn-default" value="当前页面读取值" onClick="alert(maple.store.pageGet('pagedata'));" />
 
-        <input type="button" value="滚动至页面顶部" onClick="Layout.scrollPageTop();" />
-        <script>
-            function onPageLoad() {
-                //如果返回False，那么将Loyout不会自动页面加载状态，
-                //需要用户在afterPageLoad中手动调用funcStopPageLoading
-                //console.warn("加载页面中...");
-                return false;
-            }
-
-            function afterPageLoad(funcStopPageLoading) {
-                //console.warn("页面加载完成...");
-            }
-
-            function onPageClose() {
-                //console.warn("页面关闭中...");
-            }
-        </script>
+    <h3> 5、页面input序列化和反序列化 </h3>
+    <input type="button" class="btn btn-default" value="浏览器是否支持本地存储" onClick="alert((maple.store && maple.store.enable)?'支持':'不支持');" />
+    <input type="button" class="btn btn-default" value="序列化" onClick="serialize();" />
+    <input type="button" class="btn btn-default" value="反序列化" onClick="deserialize();" />
+    <h3> 结果： </h3>
+    <div id="form-result">
     </div>
+    <div id="test-form" class="form-horizontal">
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="c-input-text">TEXT
+          <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <input type="text" id="c-input-text" required="required" class="form-control col-md-7 col-xs-12" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="c-input-text2">TEXT2
+          <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <input type="text" id="c-input-text2" required="required" class="form-control col-md-7 col-xs-12" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="c-input-textarea">TEXTAREA
+          <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <textarea type="text" id="c-input-textarea" required="required" class="form-control col-md-7 col-xs-12" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="c-input-textarea2">TEXTAREA2
+          <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <textarea type="text" id="c-input-textarea2" required="required" class="form-control col-md-7 col-xs-12" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="c-input-select">SELECT
+          <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <select id="c-input-select" required="required" class="form-control col-md-7 col-xs-12 chosen-select">
+            <option value=""></option>
+            <option value="分类1">分类1</option>
+            <option value="分类2">分类2</option>
+            <option value="分类3">分类3</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="c-input-select2">SELECT2
+          <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <select id="c-input-select2" required="required" class="form-control col-md-7 col-xs-12 chosen-select">
+            <option value=""></option>
+            <option value="分类1">分类1</option>
+            <option value="分类2">分类2</option>
+            <option value="分类3">分类3</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-radio">radio
+          <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group skin skin-minimal">
+            <div class="icheck-inline">
+              <label>
+                <input type="radio" name="bssw-f-radio" class="flat" value="3" /> radio1 </label>
+              <label>
+                <input type="radio" name="bssw-f-radio" class="flat" value="4" /> radio2 </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-radio2">radio2
+          <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group skin skin-minimal">
+            <div class="icheck-inline">
+              <label>
+                <input type="radio" name="bssw-f-radio2" class="flat" value="1" /> radioA </label>
+              <label>
+                <input type="radio" name="bssw-f-radio2" class="flat" value="2" /> radioB </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">CHECKBOX
+          <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group skin skin-minimal">
+            <div class="icheck-inline">
+              <input type="checkbox" id="check1"> Checkbox 1 </label>
+              <input type="checkbox" id="check2"> Checkbox 2 </label>
+              <input type="checkbox" id="check3"> Checkbox 3 </label>
+              <input type="checkbox" id="check4"> Checkbox 4 </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h3> *、其它函数 </h3>
+    <input type="button" class="btn btn-default" value="滚动至当前按钮所在的位置下方20px" onClick="Layout.scrollPageTo($(this),20);" />
+    <input type="button" class="btn btn-default" value="打开首页" onClick="Layout.openModule();" />
+    <input type="button" class="btn btn-default" value="打开列表页A" onClick="Layout.openModule('#../templates/page-list.html');"
+    />
+    <br/>
+    <h3> *、页面布局示例 </h3>
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Form Input Grid
+          <small>form input </small>
+        </h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li>
+            <a class="collapse-link">
+              <i class="fa fa-chevron-up"></i>
+            </a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+              <i class="fa fa-wrench"></i>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li>
+                <a href="#">Settings 1</a>
+              </li>
+              <li>
+                <a href="#">Settings 2</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a class="close-link">
+              <i class="fa fa-close"></i>
+            </a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+
+        <div class="row form-horizontal form-label-left">
+
+          <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-12" class="form-control">
+          </div>
+
+          <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-6" class="form-control">
+          </div>
+
+          <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-6" class="form-control">
+          </div>
+
+
+          <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-4" class="form-control">
+          </div>
+
+          <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-4" class="form-control">
+          </div>
+
+          <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-4" class="form-control">
+          </div>
+
+
+          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-3" class="form-control">
+          </div>
+
+          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-3" class="form-control">
+          </div>
+
+          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-3" class="form-control">
+          </div>
+
+          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-3" class="form-control">
+          </div>
+
+
+          <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-2" class="form-control">
+          </div>
+
+          <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-2" class="form-control">
+          </div>
+
+          <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-2" class="form-control">
+          </div>
+
+          <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-2" class="form-control">
+          </div>
+
+          <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-2" class="form-control">
+          </div>
+
+          <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-2" class="form-control">
+          </div>
+
+
+          <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-1" class="form-control">
+          </div>
+
+          <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-1" class="form-control">
+          </div>
+
+          <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-1" class="form-control">
+          </div>
+
+          <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-1" class="form-control">
+          </div>
+
+          <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-1" class="form-control">
+          </div>
+
+          <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-1" class="form-control">
+          </div>
+
+          <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-1" class="form-control">
+          </div>
+
+          <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-1" class="form-control">
+          </div>
+
+          <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-1" class="form-control">
+          </div>
+
+          <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-1" class="form-control">
+          </div>
+
+          <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-1" class="form-control">
+          </div>
+
+          <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+            <input type="text" placeholder=".col-md-1" class="form-control">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <input type="button" class="btn btn-default" value="滚动至页面顶部" onClick="Layout.scrollPageTop();" />
+    <script>
+      function onPageLoad() {
+        //如果返回False，那么将Loyout不会自动页面加载状态，
+        //需要用户在afterPageLoad中手动调用funcStopPageLoading
+        //console.warn("加载页面中...");
+        return false;
+      }
+
+      function afterPageLoad(funcStopPageLoading) {
+        //console.warn("页面加载完成...");
+      }
+
+      function onPageClose() {
+        //console.warn("页面关闭中...");
+      }
+
+      function getAgent() {
+        var agent = maple.getAgent();
+        alert("agent name :" + agent.name);
+        alert("agent version :" + agent.version);
+        alert("agent versions :" + agent.versions);
+
+      }
+
+      function getViewport() {
+        var viewPort = maple.getViewPort();
+        alert("width :" + viewPort.width);
+        alert("height :" + viewPort.height);
+      }
+
+      function showtips() {
+
+        maple.msg.warning("页面消息 warning");
+        maple.msg.error("页面消息 error");
+        maple.msg.success("页面消息 success", "test");
+        maple.msg.info("页面消息 info", "test");
+      }
+
+      var json;
+      function serialize() {
+        json = maple.form.serialize($("#test-form"));
+        $("#form-result").html(syntaxHighlight(json));
+      }
+
+      function deserialize() {
+        if (json) maple.form.deserialize(json);
+      }
+
+        function syntaxHighlight(json) {
+          if (typeof json != 'string') {
+            json = JSON.stringify(json, undefined, 2);
+          }
+          json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+          return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+            var cls = 'number';
+            if (/^"/.test(match)) {
+              if (/:$/.test(match)) {
+                cls = 'key';
+              } else {
+                cls = 'string';
+              }
+            } else if (/true|false/.test(match)) {
+              cls = 'boolean';
+            } else if (/null/.test(match)) {
+              cls = 'null';
+            }
+            return '<span class="' + cls + '">' + match + '</span>';
+          });
+        }
+    </script>
+  </div>
 </body>
 
 </html>

@@ -12,7 +12,7 @@
 var baseExample1 = function () {
 
     //初始化表格
-    var initTable = function () {
+    var initTable = function (lastQueryParams) {
         var options = $.extend(true, Layout.getDatatableDefaultOptions(), {
             method: 'get', //请求方式（*）
             url: "../api/baseExampleInfo.json", //请求后台的URL（*）
@@ -79,6 +79,14 @@ var baseExample1 = function () {
                 formatter: operateFormatter
             }]
         });
+
+        if (lastQueryParams) {
+            if (lastQueryParams.pageSize) options.pageSize = lastQueryParams.pageSize;
+            if (lastQueryParams.pageNumber) options.pageNumber = lastQueryParams.pageNumber;
+            if (lastQueryParams.sortName) options.sortName = lastQueryParams.sortName;
+            if (lastQueryParams.sortOrder) options.sortOrder = lastQueryParams.sortOrder;
+        }
+        
         //初始化表格
         $("#bssw-table").bootstrapTable(options);
     };
@@ -99,11 +107,11 @@ var baseExample1 = function () {
 
     //获取表格查询参数
     var queryParams = function (params) {
-        var temp = $("#bssw-s-form").serializeJson();
-        temp["PageSize"] = params.pageSize;
-        temp["Page"] = params.pageNumber;
-        temp["SortName"] = params.sortName;
-        temp["SortOrder"] = params.sortOrder;
+        var temp = maple.form.serialize($("#bssw-s-form"));
+        temp["pageSize"] = params.pageSize;
+        temp["pageNumber"] = params.pageNumber;
+        temp["sortName"] = params.sortName;
+        temp["sortOrder"] = params.sortOrder;
 
         return temp;
     };
@@ -119,6 +127,7 @@ var baseExample1 = function () {
 
         return html.join('');
     };
+
     //格式化操作列
     var operateFormatter = function (value, row, index) {
         //
@@ -129,8 +138,11 @@ var baseExample1 = function () {
 
     };
 
-    var bindPageElement = function () {
+    var bindPageElement = function (pagedata) {
         //判断本地存储中是否有页面上一次访问时保存的参数，如果有则加载之
+        if(pagedata){
+
+        }
 
         //初始化下拉菜单
         $(".chosen-select").chosen({
@@ -166,6 +178,10 @@ var baseExample1 = function () {
     //新增或修改
     var addOrEdit = function (pkey) {
         //先使用本地存储保存当前页面状态
+        // if(App.isStorageEnable){
+        //     var pagedata = queryParams($("#bssw-table").bootstrapTable("getOptions"));
+        //     App.store.pageSet("pagedata",pagedata);
+        // }
 
         //再执行页面打开
         var params = pkey ? ("?pkey=" + pkey) : "";
@@ -184,7 +200,14 @@ var baseExample1 = function () {
 
     return {
         init: function () {
-            //初始化            
+            //如果支持本地存储，那么则读取出上一次访问页面时保存的页面状态
+            // var pagedata;
+            // if (App.isStorageEnable) {
+            //     pagedata = App.store.pageGet("pagedata");
+            //     App.store.pageRemove("pagedata");
+            // }
+            
+            //初始化  
             bindPageElement();
             initTable();
 
