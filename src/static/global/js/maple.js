@@ -112,6 +112,7 @@
 ;
 (function () {
     'use strict';
+    var  staticFilePath = "../static/";
 
     //获取URL中包含的参数信息
     var getUrlParameter = function (name, url) {
@@ -293,6 +294,14 @@
                     window.event.returnValue = false;
                 }
                 return false;
+            },
+            getStaticFilePath:function(){
+                return staticFilePath;
+            },
+            setStaticFilePath:function(path){
+                if(path){
+                    staticFilePath =path;
+                }
             }
         };
     }
@@ -313,28 +322,36 @@
         }
     };
 
+    var myLoading = function () {
+        // $(".page-loading").remove();
+        // if (options) {
+        //     var html = "<div class=\"page-loading\">";
+        //     if (options.img) {
+        //         html += "<img src=\"" + options.img + "\"/>";
+        //     }
+        //     html += "&nbsp;&nbsp;<span>";
+        //     if (options.message) {
+        //         html += options.message;
+        //     } else {
+        //         html += "加载中...";
+        //     }
+        //     html += "</span></div>";
+        //     $("body").append(html);
+        // } else {
+        //     $("body").append("<div class=\"page-loading\">&nbsp;&nbsp;<span>加载中...</span></div>");
+        // }
+    };
+
+    var myEndLoad = function(){
+        // $(".page-loading").remove();
+    };
+
     //开始加载动画
     var startPageLoading = function () {
         if (typeof NProgress != 'undefined') {
             NProgress.start();
         } else {
-            // $(".page-loading").remove();
-            // if (options) {
-            //     var html = "<div class=\"page-loading\">";
-            //     if (options.img) {
-            //         html += "<img src=\"" + options.img + "\"/>";
-            //     }
-            //     html += "&nbsp;&nbsp;<span>";
-            //     if (options.message) {
-            //         html += options.message;
-            //     } else {
-            //         html += "加载中...";
-            //     }
-            //     html += "</span></div>";
-            //     $("body").append(html);
-            // } else {
-            //     $("body").append("<div class=\"page-loading\">&nbsp;&nbsp;<span>加载中...</span></div>");
-            // }
+            myLoading();
         }
     };
     //结束加载动画
@@ -342,7 +359,72 @@
         if (typeof NProgress != 'undefined') {
             NProgress.done();
         } else {
-            // $(".page-loading").remove();
+            myEndLoad();
+        }
+    };
+
+    var blockUI = function(options) {
+        options = $.extend(true, {}, options);
+        var html = '';
+        if (options.animate) {
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '">' + '<div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>' + '</div>';
+        } else if (options.iconOnly) {
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="' + maple.getStaticFilePath() + 'global/img/loading-spinner-grey.gif" align=""></div>';
+        } else if (options.textOnly) {
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><span>&nbsp;&nbsp;' + (options.message ? options.message : '加载中...') + '</span></div>';
+        } else {
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="' + maple.getStaticFilePath() + 'global/img/loading-spinner-grey.gif" align=""><span>&nbsp;&nbsp;' + (options.message ? options.message : '加载中...') + '</span></div>';
+        }
+
+        if (options.target) { // element blocking
+            var el = $(options.target);
+            if (el.height() <= ($(window).height())) {
+                options.cenrerY = true;
+            }
+            el.block({
+                message: html,
+                baseZ: options.zIndex ? options.zIndex : 1000,
+                centerY: options.cenrerY !== undefined ? options.cenrerY : false,
+                css: {
+                    top: '10%',
+                    border: '0',
+                    padding: '0',
+                    backgroundColor: 'none'
+                },
+                overlayCSS: {
+                    backgroundColor: options.overlayColor ? options.overlayColor : '#555',
+                    opacity: options.boxed ? 0.05 : 0.1,
+                    cursor: 'wait'
+                }
+            });
+        } else { // page blocking
+            $.blockUI({
+                message: html,
+                baseZ: options.zIndex ? options.zIndex : 1000,
+                css: {
+                    border: '0',
+                    padding: '0',
+                    backgroundColor: 'none'
+                },
+                overlayCSS: {
+                    backgroundColor: options.overlayColor ? options.overlayColor : '#555',
+                    opacity: options.boxed ? 0.05 : 0.1,
+                    cursor: 'wait'
+                }
+            });
+        }
+    };
+    
+    var unblockUI = function (target) {
+        if (target) {
+            $(target).unblock({
+                onUnblock: function () {
+                    $(target).css('position', '');
+                    $(target).css('zoom', '');
+                }
+            });
+        } else {
+            $.unblockUI();
         }
     };
 
@@ -352,7 +434,9 @@
         },
         configure: configure,
         startPageLoading: startPageLoading,
-        stopPageLoading: stopPageLoading
+        stopPageLoading: stopPageLoading,
+        blockUI: blockUI,
+        unblockUI: unblockUI
     };
 })();
 /* ========================================================================
@@ -616,6 +700,8 @@
     var ajaxDefaultSetting = function (options) {
         var opts = $.extend(true, defaultOpts, options);
         $.ajaxSetup(opts);
+
+        // $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
     };
 
     maple.ajax = {
@@ -624,9 +710,7 @@
         },
         ajaxDefaultSetting: ajaxDefaultSetting
     };
-
     maple.ajax.ajaxDefaultSetting();
-
 })(window, jQuery);
 
 /* ========================================================================

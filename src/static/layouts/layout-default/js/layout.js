@@ -332,7 +332,7 @@ var Layout = function () {
             }
         }
     };
- 
+
     return {
         init: function () {
             $body = $("body");
@@ -344,6 +344,16 @@ var Layout = function () {
             handleUrlHashChange(); //检测浏览器HashChange事件
             loadHomePage(); //初始化首页信息   
             switchTheme(); //初始化皮肤 
+        },
+        setDefalutHomePageUrl: function (url) {
+            if(url){
+                defalutHomePageUrl = url;
+            }
+        },
+        setApi_identity_info: function (url) {
+            if(url){
+                api_identity_info = url;
+            }
         },
         switchTheme: switchTheme,
         scrollPageTo: scrollPageTo,
@@ -395,6 +405,3 @@ var Layout = function () {
     };
 }();
 
-jQuery(document).ready(function () {
-    Layout.init(); // 页面加载时初始化处理整个页面布局的组件
-});

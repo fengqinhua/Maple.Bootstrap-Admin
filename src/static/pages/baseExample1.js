@@ -27,50 +27,50 @@ var baseExample1 = function () {
                 title: "XX编码",
                 align: "left",
                 valign: "middle",
-                sortable : true
+                sortable: true
             }, {
                 field: "name",
                 title: "XX名称",
                 align: "left",
                 valign: "middle",
                 formatter: nameFormatter,
-                sortable : true
+                sortable: true
             }, {
                 field: "classify",
                 title: "XX分类",
                 align: "center",
                 valign: "middle",
-                sortable : true
+                sortable: true
             }, {
                 field: "productName",
                 title: "产品名称",
                 align: "left",
                 valign: "middle",
-                sortable : true
+                sortable: true
             }, {
                 field: "vendor",
                 title: "供应商",
                 align: "left",
                 valign: "middle",
-                sortable : true
+                sortable: true
             }, {
                 field: "source",
                 title: "来源",
                 align: "center",
                 valign: "middle",
-                sortable : true
+                sortable: true
             }, {
                 field: "distributeDate",
                 title: "发布时间",
                 align: "center",
                 valign: "middle",
-                sortable : true
+                sortable: true
             }, {
                 field: "isscan",
                 title: "是否扫描",
                 align: "center",
                 valign: "middle",
-                sortable : true
+                sortable: true
             }, {
                 field: "operate",
                 title: "操作",
@@ -86,7 +86,7 @@ var baseExample1 = function () {
             if (lastQueryParams.sortName) options.sortName = lastQueryParams.sortName;
             if (lastQueryParams.sortOrder) options.sortOrder = lastQueryParams.sortOrder;
         }
-        
+
         //初始化表格
         $("#bssw-table").bootstrapTable(options);
     };
@@ -140,8 +140,8 @@ var baseExample1 = function () {
 
     var bindPageElement = function (pagedata) {
         //判断本地存储中是否有页面上一次访问时保存的参数，如果有则加载之
-        if(pagedata){
-
+        if (pagedata) {
+            maple.form.deserialize(pagedata, $("#bssw-s-form"));
         }
 
         //初始化下拉菜单
@@ -175,21 +175,28 @@ var baseExample1 = function () {
         });
     };
 
+    //保存页面状态
+    var savePageStatu = function () {
+        if (maple.store.enable) {
+            var pagedata = queryParams($("#bssw-table").bootstrapTable("getOptions"));
+            maple.store.pageSet("pagedata", pagedata);
+        }
+    };
+
     //新增或修改
     var addOrEdit = function (pkey) {
-        //先使用本地存储保存当前页面状态
-        // if(App.isStorageEnable){
-        //     var pagedata = queryParams($("#bssw-table").bootstrapTable("getOptions"));
-        //     App.store.pageSet("pagedata",pagedata);
-        // }
+        //跳转页面前，保存当前页面状态，再执行页面打开
+        savePageStatu();
 
-        //再执行页面打开
         var params = pkey ? ("?pkey=" + pkey) : "";
         Layout.openModule("#../templates/page-baseExample1-form.html" + params);
     };
 
     //设置规则
     var setRules = function (pkey) {
+        //跳转页面前，保存当前页面状态，再执行页面打开
+        savePageStatu();
+        
         alert("规则设置" + pkey);
     };
 
@@ -201,15 +208,15 @@ var baseExample1 = function () {
     return {
         init: function () {
             //如果支持本地存储，那么则读取出上一次访问页面时保存的页面状态
-            // var pagedata;
-            // if (App.isStorageEnable) {
-            //     pagedata = App.store.pageGet("pagedata");
-            //     App.store.pageRemove("pagedata");
-            // }
-            
+            var pagedata;
+            if (maple.store.enable) {
+                pagedata = maple.store.pageGet("pagedata");
+                maple.store.pageRemove("pagedata");
+            }
+
             //初始化  
-            bindPageElement();
-            initTable();
+            bindPageElement(pagedata);
+            initTable(pagedata);
 
         },
         refreshTable: refreshTable,

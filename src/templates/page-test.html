@@ -40,6 +40,22 @@
     <h3> 2、页面加载动画的基础函数 </h3>
     <input type="button" class="btn btn-default" value="开始加载" onClick="maple.progress.startPageLoading();" />
     <input type="button" class="btn btn-default" value="结束加载" onClick="maple.progress.stopPageLoading();" />
+
+
+    <input type="button" class="btn btn-default" value="Ajax等待（默认）" onClick="maple.progress.blockUI();window.setTimeout(function () { maple.progress.unblockUI(); }, 2000);"
+    />
+    <input type="button" class="btn btn-default" value="Ajax等待（消息内容）" onClick="maple.progress.blockUI({message:'测试ajax消息内容'});window.setTimeout(function () { maple.progress.unblockUI(); }, 2000);"
+    />
+    <input type="button" class="btn btn-default" value="Ajax等待（指定容器）" onClick="maple.progress.blockUI({target:'#test-blockUI',message:'测试ajax下方指定容器'});"
+    />
+    <input type="button" class="btn btn-default" value="关闭指定容器Ajax" onClick="maple.progress.unblockUI('#test-blockUI');" />
+    <div id="test-blockUI">
+      <br/>
+      <br/> Ajax等待（指定容器）
+      <br/>
+      <br/>
+      <br/>
+    </div>
     <h3> 3、页面消息的基础函数 </h3>
     <input type="button" class="btn btn-default" value="弹出页面消息" onClick="showtips();" />
     <input type="button" class="btn btn-default" value="清除页面消息" onClick="maple.msg.clear();" />
@@ -48,7 +64,8 @@
     <input type="button" class="btn btn-default" value="当前页面读取值" onClick="alert(maple.store.pageGet('pagedata'));" />
 
     <h3> 5、页面input序列化和反序列化 </h3>
-    <input type="button" class="btn btn-default" value="浏览器是否支持本地存储" onClick="alert((maple.store && maple.store.enable)?'支持':'不支持');" />
+    <input type="button" class="btn btn-default" value="浏览器是否支持本地存储" onClick="alert((maple.store && maple.store.enable)?'支持':'不支持');"
+    />
     <input type="button" class="btn btn-default" value="序列化" onClick="serialize();" />
     <input type="button" class="btn btn-default" value="反序列化" onClick="deserialize();" />
     <h3> 结果： </h3>
@@ -373,27 +390,27 @@
         if (json) maple.form.deserialize(json);
       }
 
-        function syntaxHighlight(json) {
-          if (typeof json != 'string') {
-            json = JSON.stringify(json, undefined, 2);
-          }
-          json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
-          return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-            var cls = 'number';
-            if (/^"/.test(match)) {
-              if (/:$/.test(match)) {
-                cls = 'key';
-              } else {
-                cls = 'string';
-              }
-            } else if (/true|false/.test(match)) {
-              cls = 'boolean';
-            } else if (/null/.test(match)) {
-              cls = 'null';
-            }
-            return '<span class="' + cls + '">' + match + '</span>';
-          });
+      function syntaxHighlight(json) {
+        if (typeof json != 'string') {
+          json = JSON.stringify(json, undefined, 2);
         }
+        json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+          var cls = 'number';
+          if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+              cls = 'key';
+            } else {
+              cls = 'string';
+            }
+          } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+          } else if (/null/.test(match)) {
+            cls = 'null';
+          }
+          return '<span class="' + cls + '">' + match + '</span>';
+        });
+      }
     </script>
   </div>
 </body>

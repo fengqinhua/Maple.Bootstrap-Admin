@@ -135,6 +135,13 @@
     <!-- 自定义的JS组件 -->
     <script src="../static/global/js/maple.js"></script>
     <script src="../static/layouts/layout-default/js/layout.js"></script>
-</body>
+    <script>
+        jQuery(document).ready(function () {
+            // Layout.setDefalutHomePageUrl("");
+            // Layout.setApi_identity_info("");
+            Layout.init(); // 页面加载时初始化处理整个页面布局的组件
+        });
+    </script>
+    </body>
 
 </html>
