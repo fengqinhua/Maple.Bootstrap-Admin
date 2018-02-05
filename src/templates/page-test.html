@@ -56,14 +56,76 @@
       <br/>
       <br/>
     </div>
-    <h3> 3、页面消息的基础函数 </h3>
+    <h3> 3、对话框 </h3>
+    <div>
+      <input type="button" class="btn btn-default" value="Messagebox 默认标题" onClick="messageBox1();" />
+      <input type="button" class="btn btn-default" value="Messagebox 自定义标题" onClick="messageBox2();" />
+      <input type="button" class="btn btn-default" value="Messagebox 关闭事件" onClick="messageBox3();" />
+    </div>
+    <script>
+      function messageBox1() {
+        var opts = $.extend(true, plugOpts.getDialogMessageBoxOpts(), {
+          message: 'Messagebox 默认标题'
+        });
+        BootstrapDialog.show(opts);
+      };
+      function messageBox2() {
+        var opts = $.extend(true, plugOpts.getDialogMessageBoxOpts(), {
+          message: 'Messagebox 自定义标题',
+          title: 'maple'
+        });
+        BootstrapDialog.show(opts);
+      };
+      function messageBox3() {
+        var opts = $.extend(true, plugOpts.getDialogMessageBoxOpts(), {
+          onhide: function () { alert('close') }
+        });
+        BootstrapDialog.show(opts);
+      };
+    </script>
+    <div>
+      <input type="button" class="btn btn-default" value="confirmBox 默认标题" onClick="confirmBox1();" />
+      <input type="button" class="btn btn-default" value="confirmBox 自定义标题" onClick="confirmBox2();" />
+      <input type="button" class="btn btn-default" value="confirmBox 关闭事件" onClick="confirmBox3();" />
+      <input type="button" class="btn btn-default" value="confirmBox callback事件" onClick="confirmBox4();" />
+    </div>
+    <script>
+      function confirmBox1() {
+        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
+          message: 'Messagebox 默认标题'
+        });
+        BootstrapDialog.confirm(opts);
+      };
+      function confirmBox2() {
+        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
+          message: 'Messagebox 自定义标题',
+          title: 'maple'
+        });
+        BootstrapDialog.confirm(opts);
+      };
+      function confirmBox3() {
+        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
+          onhide: function () { alert('close') }
+        });
+        BootstrapDialog.confirm(opts);
+      };
+      function confirmBox4() {
+        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
+          callback: function (result) { alert(result); }
+        });
+        BootstrapDialog.confirm(opts);
+      };
+    </script>
+
+
+    <h3> 4、页面消息的基础函数 </h3>
     <input type="button" class="btn btn-default" value="弹出页面消息" onClick="showtips();" />
     <input type="button" class="btn btn-default" value="清除页面消息" onClick="maple.msg.clear();" />
-    <h3> 4、本地存储 </h3>
+    <h3> 5、本地存储 </h3>
     <input type="button" class="btn btn-default" value="当前页面存储值" onClick="maple.store.pageSet('pagedata','pagedata');" />
     <input type="button" class="btn btn-default" value="当前页面读取值" onClick="alert(maple.store.pageGet('pagedata'));" />
 
-    <h3> 5、页面input序列化和反序列化 </h3>
+    <h3> 6、页面input序列化和反序列化 </h3>
     <input type="button" class="btn btn-default" value="浏览器是否支持本地存储" onClick="alert((maple.store && maple.store.enable)?'支持':'不支持');"
     />
     <input type="button" class="btn btn-default" value="序列化" onClick="serialize();" />

@@ -13,7 +13,7 @@ var baseExample1 = function () {
 
     //初始化表格
     var initTable = function (lastQueryParams) {
-        var options = $.extend(true, Layout.getDatatableDefaultOptions(), {
+        var options = $.extend(true, plugOpts.getDatatableDefaultOptions(), {
             method: 'get', //请求方式（*）
             url: "../api/baseExampleInfo.json", //请求后台的URL（*）
             toolbar: "#bssw-toolbar", //工具按钮用哪个容器
