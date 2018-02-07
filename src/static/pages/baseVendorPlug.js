@@ -17,18 +17,18 @@ var baseVendorChooseOrAdd = function () { };
 
 // 私有方法
 // 设置页面数据
-baseVendorChooseOrAdd.prototype._setPageData = function(data){
+baseVendorChooseOrAdd.prototype._setPageData = function (data) {
     this.$page = $('<div></div>');
     this.$page.append(data);
     this._bindPageElement();
     this._handelInitValidate();
 };
 // 绑定事件及相关插件设置
-baseVendorChooseOrAdd.prototype._bindPageElement = function(){
+baseVendorChooseOrAdd.prototype._bindPageElement = function () {
 
 };
 // 设置验证
-baseVendorChooseOrAdd.prototype._handelInitValidate = function(){
+baseVendorChooseOrAdd.prototype._handelInitValidate = function () {
     var temps = $.extend(true, plugOpts.getValidationDefaultOptions(), {
         errorClass: 'col-md-2 col-sm-2 validator-span text-danger',
         rules: {
@@ -61,7 +61,7 @@ baseVendorChooseOrAdd.prototype._saveData = function (callback) {
             success: function (res) {
                 maple.progress.unblockUI();
                 if (res && res.code && res.code == "200" && res.result) {
-                    if (typeof callback === "function"){
+                    if (typeof callback === "function") {
                         callback(formValues);
                     }
                 } else {
@@ -88,32 +88,33 @@ baseVendorChooseOrAdd.prototype.show = function (callback) {
     Layout.loadPageFromRemote(maple.getRootPath() + "templates/page-baseExample1-form2.html", function (data, dataType) {
         maple.progress.unblockUI();
         that._setPageData(data);
+
         var temps = $.extend(true, {}, {
             title: "新建供应商",
             message: that.$page,
             size: BootstrapDialog.SIZE_NORMAL,
-            buttons:[
+            buttons: [
                 {
                     label: '取消',
-                    action: function(dialogItself){
+                    action: function (dialogItself) {
                         dialogItself.close();
                     }
                 },
                 {
                     label: '确定',
                     cssClass: 'btn-primary',
-                    action: function(dialogItself){
-                        that._saveData(function(data){
-                            if(data){
-                                for(var key in data){
-                                    if(key == "sgys-f-vendorName"){
-                                        if (typeof callback === "function"){
+                    action: function (dialogItself) {
+                        that._saveData(function (data) {
+                            if (data) {
+                                for (var key in data) {
+                                    if (key == "sgys-f-vendorName") {
+                                        if (typeof callback === "function") {
                                             callback(data[key]);
                                         }
                                     }
                                 }
                             }
-    
+
                             dialogItself.close();
                         });
                     }

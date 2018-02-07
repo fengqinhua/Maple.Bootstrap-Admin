@@ -401,7 +401,7 @@
             }
             el.block({
                 message: html,
-                baseZ: options.zIndex ? options.zIndex : 1000,
+                baseZ: options.zIndex ? options.zIndex : 2000,
                 centerY: options.cenrerY !== undefined ? options.cenrerY : false,
                 css: {
                     top: '10%',
@@ -418,7 +418,7 @@
         } else { // page blocking
             $.blockUI({
                 message: html,
-                baseZ: options.zIndex ? options.zIndex : 1000,
+                baseZ: options.zIndex ? options.zIndex : 2000,
                 css: {
                     border: '0',
                     padding: '0',
