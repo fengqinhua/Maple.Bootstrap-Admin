@@ -112,7 +112,15 @@
 ;
 (function () {
     'use strict';
-    var  staticFilePath = "../static/";
+    var staticFilePath = "../static/";
+
+    var S4 = function () {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    };
+    //生成GUID
+    var newGuid = function () {
+        return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+    };
 
     //获取URL中包含的参数信息
     var getUrlParameter = function (name, url) {
@@ -235,6 +243,7 @@
                 //显示当前对象名称路径
                 return "maple";
             },
+            newGuid: newGuid,
             setHomepage: setHomepage,
             getAgent: getAgent,
             getHost: function () {
@@ -295,12 +304,12 @@
                 }
                 return false;
             },
-            getStaticFilePath:function(){
+            getStaticFilePath: function () {
                 return staticFilePath;
             },
-            setStaticFilePath:function(path){
-                if(path){
-                    staticFilePath =path;
+            setStaticFilePath: function (path) {
+                if (path) {
+                    staticFilePath = path;
                 }
             }
         };
@@ -342,7 +351,7 @@
         // }
     };
 
-    var myEndLoad = function(){
+    var myEndLoad = function () {
         // $(".page-loading").remove();
     };
 
@@ -363,7 +372,7 @@
         }
     };
 
-    var blockUI = function(options) {
+    var blockUI = function (options) {
         options = $.extend(true, {}, options);
         var html = '';
         if (options.animate) {
@@ -414,7 +423,7 @@
             });
         }
     };
-    
+
     var unblockUI = function (target) {
         if (target) {
             $(target).unblock({
@@ -476,19 +485,19 @@
         },
         configure: configure,
         success: function (msg, title) {
-            if (title) title = "系统提示";
+            if (!title) title = "系统提示";
             if (typeof toastr != 'undefined') toastr.success(msg, title);
         },
         error: function (msg, title) {
-            if (title) title = "系统提示";
+            if (!title) title = "系统提示";
             if (typeof toastr != 'undefined') toastr.error(msg, title);
         },
         warning: function (msg, title) {
-            if (title) title = "系统提示";
+            if (!title) title = "系统提示";
             if (typeof toastr != 'undefined') toastr.warning(msg, title);
         },
         info: function (msg, title) {
-            if (title) title = "系统提示";
+            if (!title) title = "系统提示";
             if (typeof toastr != 'undefined') toastr.info(msg, title);
         },
         clear: function () {
@@ -515,10 +524,10 @@
 	 * @param {String} key 查询关键字
 	 * @return {Array} inputs jQuery对象数组
 	 */
-	var _findInputs = function (inputs, key) {
-		return $(inputs.filter('input[name=' + key + '],input[id=' + key
-			+ '],textarea[name=' + key + '],textarea[id=' + key
-			+ '],select[name=' + key + '],select[id=' + key + ']'));
+    var _findInputs = function (inputs, key) {
+        return $(inputs.filter('input[name=' + key + '],input[id=' + key
+            + '],textarea[name=' + key + '],textarea[id=' + key
+            + '],select[name=' + key + '],select[id=' + key + ']'));
     };
     /**
 	 * 获取合法的输入标签。
@@ -527,11 +536,11 @@
 	 * @param {Object} container jQuery对象，标签容器
 	 * @return {Array} inputs jQuery对象数组
 	 */
-	var _filterInputs = function (container) {
-		return $(container
-			.find('input[type!=button][type!=reset][type!=submit][type!=image][type!=file],select,textarea'));
+    var _filterInputs = function (container) {
+        return $(container
+            .find('input[type!=button][type!=reset][type!=submit][type!=image][type!=file],select,textarea'));
     };
-    
+
 	/**
 	 * 将输入控件集合序列化成对象， 名称或编号作为键，value属性作为值。
 	 *
@@ -568,9 +577,9 @@
                     case 'radio':
                         if (input.is(':checked')) {
                             value = input.attr('value');
-                        }else{
-                            continue;      
-                        } 
+                        } else {
+                            continue;
+                        }
                         break;
                     default:
                         value = input.val();
@@ -626,7 +635,7 @@
         }
         return this;
     };
- 
+
     /**
 	 * 序列化表单值,结果以key/value形式返回key为表单对象名称(name||id),value为其值。<br>
 	 * HTML格式：<br>
@@ -649,7 +658,7 @@
         var inputs = _filterInputs(frm);
         return _serializeInputs(inputs);
     };
-    
+
     /**
 	 * 填充表单内容：将json数据形式数据填充到表单内
 	 *
@@ -658,25 +667,25 @@
 	 * @param {Object} json 序列化好的json数据对象
 	 * @return {Object} iTsai.form
 	 */
-	var deserialize = function (json,frm) {
-		frm = frm || $("body");
-		if(!frm || !json) {
-			return this;
+    var deserialize = function (json, frm) {
+        frm = frm || $("body");
+        if (!frm || !json) {
+            return this;
         }
-        
+
         //将所有radio还原为默认值
         frm.find("input[type=radio]").prop('checked', false);
         //再执行赋值
         var inputs = _filterInputs(frm);
-		for (var key in json) {
-            var value = json[key], 
+        for (var key in json) {
+            var value = json[key],
                 input = _findInputs(inputs, key);
-			_deserializeInputs(input, value);
-		}
+            _deserializeInputs(input, value);
+        }
 
-		return this;
+        return this;
     };
- 
+
     maple.form = {
         toString: function () {
             return 'maple.form';
@@ -693,7 +702,7 @@
 ;
 (function (window, $) {
     'use strict';
-    
+
     var defaultOpts = {
         cache: false
     };

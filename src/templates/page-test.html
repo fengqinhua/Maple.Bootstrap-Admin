@@ -14,7 +14,7 @@
   <link href="../static/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
   <link href="../static/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <!-- 自定义的CSS组件 -->
-  <link href="../static/global/css/app.css" rel="stylesheet">
+  <link href="../static/global/css/maple.css" rel="stylesheet">
   <link href="../static/layouts/layout-default/css/layout.css" rel="stylesheet">
   <link id="maple-theme" href="../static/layouts/layout-default/css/themes/blue.css" rel="stylesheet">
   <!-- 网页图标 -->
@@ -30,6 +30,7 @@
   <div id="pagecontent">
     <h1>这是用于演示公用函数的页面！</h1>
     <h3> 1、浏览器，视窗，URL相关的基础函数 </h3>
+    <input type="button" class="btn btn-default" value="生成GUID" onClick="alert(maple.newGuid());" />
     <input type="button" class="btn btn-default" value="获取当前浏览器信息" onClick="getAgent();" />
     <input type="button" class="btn btn-default" value="获取当前浏览器语言代码" onClick="alert(maple.getLang());" />
     <input type="button" class="btn btn-default" value="获取当前视窗大小" onClick="getViewport();" />
@@ -62,62 +63,12 @@
       <input type="button" class="btn btn-default" value="Messagebox 自定义标题" onClick="messageBox2();" />
       <input type="button" class="btn btn-default" value="Messagebox 关闭事件" onClick="messageBox3();" />
     </div>
-    <script>
-      function messageBox1() {
-        var opts = $.extend(true, plugOpts.getDialogMessageBoxOpts(), {
-          message: 'Messagebox 默认标题'
-        });
-        BootstrapDialog.show(opts);
-      };
-      function messageBox2() {
-        var opts = $.extend(true, plugOpts.getDialogMessageBoxOpts(), {
-          message: 'Messagebox 自定义标题',
-          title: 'maple'
-        });
-        BootstrapDialog.show(opts);
-      };
-      function messageBox3() {
-        var opts = $.extend(true, plugOpts.getDialogMessageBoxOpts(), {
-          onhide: function () { alert('close') }
-        });
-        BootstrapDialog.show(opts);
-      };
-    </script>
     <div>
       <input type="button" class="btn btn-default" value="confirmBox 默认标题" onClick="confirmBox1();" />
       <input type="button" class="btn btn-default" value="confirmBox 自定义标题" onClick="confirmBox2();" />
       <input type="button" class="btn btn-default" value="confirmBox 关闭事件" onClick="confirmBox3();" />
       <input type="button" class="btn btn-default" value="confirmBox callback事件" onClick="confirmBox4();" />
     </div>
-    <script>
-      function confirmBox1() {
-        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
-          message: 'Messagebox 默认标题'
-        });
-        BootstrapDialog.confirm(opts);
-      };
-      function confirmBox2() {
-        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
-          message: 'Messagebox 自定义标题',
-          title: 'maple'
-        });
-        BootstrapDialog.confirm(opts);
-      };
-      function confirmBox3() {
-        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
-          onhide: function () { alert('close') }
-        });
-        BootstrapDialog.confirm(opts);
-      };
-      function confirmBox4() {
-        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
-          callback: function (result) { alert(result); }
-        });
-        BootstrapDialog.confirm(opts);
-      };
-    </script>
-
-
     <h3> 4、页面消息的基础函数 </h3>
     <input type="button" class="btn btn-default" value="弹出页面消息" onClick="showtips();" />
     <input type="button" class="btn btn-default" value="清除页面消息" onClick="maple.msg.clear();" />
@@ -473,6 +424,52 @@
           return '<span class="' + cls + '">' + match + '</span>';
         });
       }
+
+      function messageBox1() {
+        var opts = $.extend(true, plugOpts.getDialogMessageBoxOpts(), {
+          message: 'Messagebox 默认标题'
+        });
+        BootstrapDialog.show(opts);
+      };
+      function messageBox2() {
+        var opts = $.extend(true, plugOpts.getDialogMessageBoxOpts(), {
+          message: 'Messagebox 自定义标题',
+          title: 'maple'
+        });
+        BootstrapDialog.show(opts);
+      };
+      function messageBox3() {
+        var opts = $.extend(true, plugOpts.getDialogMessageBoxOpts(), {
+          onhide: function () { alert('close') }
+        });
+        BootstrapDialog.show(opts);
+      };
+
+      function confirmBox1() {
+        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
+          message: 'Messagebox 默认标题'
+        });
+        BootstrapDialog.confirm(opts);
+      };
+      function confirmBox2() {
+        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
+          message: 'Messagebox 自定义标题',
+          title: 'maple'
+        });
+        BootstrapDialog.confirm(opts);
+      };
+      function confirmBox3() {
+        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
+          onhide: function () { alert('close') }
+        });
+        BootstrapDialog.confirm(opts);
+      };
+      function confirmBox4() {
+        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
+          callback: function (result) { alert(result); }
+        });
+        BootstrapDialog.confirm(opts);
+      };
     </script>
   </div>
 </body>

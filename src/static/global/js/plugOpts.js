@@ -11,22 +11,22 @@ var plugOpts = function () {
                 message: "",
                 title: "系统提示",
                 type: BootstrapDialog.TYPE_DEFAULT,
-                size: BootstrapDialog.SIZE_SMALL,//SIZE_SMALL SIZE_NORMAL
-                onhide: function () { }
+                size: BootstrapDialog.SIZE_SMALL, //SIZE_SMALL SIZE_NORMAL
+                onhide: function () {}
             };
         },
         getDialogConfirmBoxOpts: function () {
             //获取bootstrap3-dialog绑定时的缺省设置
             return {
-                message: "",//消息内容
-                title: "系统提示",//消息标题
-                type: BootstrapDialog.TYPE_PRIMARY,//消息样式
-                size: BootstrapDialog.SIZE_NORMAL,//消息大小
+                message: "", //消息内容
+                title: "系统提示", //消息标题
+                type: BootstrapDialog.TYPE_WARNING, //消息样式
+                size: BootstrapDialog.SIZE_SMALL, //消息大小 SIZE_SMALL SIZE_NORMAL
                 btnCancelLabel: '取消', // 取消按钮的文本内容
                 btnOKLabel: '确定', // 确定按钮的文本内容
-                btnOKClass: null,//确定按钮的文本样式
-                onhide: function () { },
-                callback: function () { }
+                btnOKClass: null, //确定按钮的文本样式
+                onhide: function () {},
+                callback: function () {}
             };
         },
         getDatatableDefaultOptions: function () {
@@ -53,7 +53,7 @@ var plugOpts = function () {
                 cardView: false, //是否显示详细视图
                 detailView: false, //是否显示父子表
                 responseHandler: function (res) {
-                    if (res && res.code && res.data && res.code == "200") {
+                    if (res && res.code && res.code == "200") {
                         return res.data;
                     } else {
                         maple.msg.error(res.msg ? res.msg : "数据加载异常", "系统提示");
@@ -65,6 +65,35 @@ var plugOpts = function () {
                 },
                 onLoadError: function (status) {
                     maple.msg.error(status ? status : "数据加载异常", "系统提示");
+                }
+            };
+        },
+        getValidationDefaultOptions: function () {
+            return {
+                errorElement: 'span', // default input error message container
+                errorClass: 'col-md-3 col-sm-3 validator-span help-block help-block-error', // default input error message class
+                focusInvalid: false, // do not focus the last invalid input
+                onfocusout: false, //失去焦点时验证（不包括复选框/单选按钮）。
+                onclick: false,
+                onkeyup: false,
+                ignore: "", // validate all fields including form hidden input
+                highlight: function (element) { // hightlight error inputs
+                    $(element).closest('.form-group').addClass('has-error'); // set error class to the control group
+                },
+                unhighlight: function (element) { // revert the change done by hightlight
+                    $(element).closest('.form-group').removeClass('has-error'); // set error class to the control group
+                },
+                success: function (label) {
+                    label.closest('.form-group').removeClass('has-error'); // set success class to the control group
+                },
+                errorPlacement: function (error, element) {
+                    //if (element.parent('.form-group').length) {
+                    //    error.insertAfter(element.parent());
+                    //} else {
+                    //    error.insertAfter(element);
+                    //}
+                    error.appendTo(element.closest('.form-group'));
+                    //error.appendTo(element.parent());
                 }
             };
         }

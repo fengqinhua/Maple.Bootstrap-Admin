@@ -17,7 +17,7 @@
     <link href="../static/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" />
     <link href="../static/global/plugins/nprogress-0.2.0/nprogress.css" rel="stylesheet" />
     <!-- 自定义的CSS组件 -->
-    <link href="../static/global/css/app.css" rel="stylesheet">
+    <link href="../static/global/css/maple.css" rel="stylesheet">
     <link href="../static/layouts/layout-default/css/layout.css" rel="stylesheet">
     <link id="maple-theme" href="../static/layouts/layout-default/css/themes/blue.css" rel="stylesheet">
     <!-- 网页图标 -->
@@ -125,7 +125,32 @@
             </div>
         </div>
     </div>
-
+    <div class="hidden">
+        <div id="bssw-export-select">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <label>
+                            <input type="radio" value="1" name="bssw-exporttype" checked class="flat"> 完整的数据包 </label>
+                    </div>
+                    <div class="col-xs-6">
+                        <label>
+                            <input type="radio" value="2" name="bssw-exporttype" class="flat"> 信息采集工具所需数据包 </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <label>
+                            <input type="radio" value="3" name="bssw-exporttype" class="flat"> 检查工具所需的数据包（UTF8） </label>
+                    </div>
+                    <div class="col-xs-6">
+                        <label>
+                            <input type="radio" value="4" name="bssw-exporttype" class="flat"> 检查工具所需的数据包（GB2312） </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../static/pages/baseExample1.js"></script>
 </body>
 

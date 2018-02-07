@@ -17,7 +17,7 @@
     <link href="../static/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" />
     <link href="../static/global/plugins/nprogress-0.2.0/nprogress.css" rel="stylesheet" />
     <!-- 自定义的CSS组件 -->
-    <link href="../static/global/css/app.css" rel="stylesheet">
+    <link href="../static/global/css/maple.css" rel="stylesheet">
     <link href="../static/layouts/layout-default/css/layout.css" rel="stylesheet">
     <link id="maple-theme" href="../static/layouts/layout-default/css/themes/blue.css" rel="stylesheet">
     <!-- 网页图标 -->
@@ -33,7 +33,7 @@
     <div class="x_panel">
         <div class="x_title">
             <h2>示例模块
-                <small>表单页面</small>
+                <small>表单页面1</small>
             </h2>
             <ul class="nav navbar-right panel_toolbox">
                 <li>
@@ -45,13 +45,14 @@
             <div class="clearfix"></div>
         </div>
         <div class="x_content">
-            <div class="form-horizontal">
+            <form class="form-horizontal" id="bssw-form">
+                <input type="hidden" id="hf_PK" />
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-softwareNo">XX编号
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="bssw-f-softwareNo" required="required" class="form-control col-md-7 col-xs-12" />
+                        <input type="text" id="bssw-f-softwareNo" name="bssw-f-softwareNo" required="required" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -59,7 +60,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="bssw-f-name" required="required" class="form-control col-md-7 col-xs-12" />
+                        <input type="text" id="bssw-f-name" name="bssw-f-name" required="required" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -67,7 +68,7 @@
                         <span class="unrequired"></span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="bssw-f-versionName" class="form-control col-md-7 col-xs-12" />
+                        <input type="text" id="bssw-f-versionName" name="bssw-f-versionName" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -75,7 +76,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select id="bssw-f-classify" required="required" class="form-control col-md-7 col-xs-12 chosen-select">
+                        <select id="bssw-f-classify" name="bssw-f-classify" required="required" class="form-control chosen-select">
                             <option value=""></option>
                             <option value="分类1">分类1</option>
                             <option value="分类2">分类2</option>
@@ -88,7 +89,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select id="bssw-f-type" required="required" class="form-control col-md-7 col-xs-12 chosen-select">
+                        <select id="bssw-f-type" name="bssw-f-type" required="required" class="form-control chosen-select">
                             <option value=""></option>
                             <option value="类型1">类型1</option>
                             <option value="类型2">类型2</option>
@@ -101,7 +102,26 @@
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="bssw-f-productName" required="required" class="form-control col-md-7 col-xs-12" />
+                        <input type="text" id="bssw-f-productName" name="bssw-f-productName" required="required" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bssw-f-vendor">供应商
+                        <span class="unrequired"></span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <select id="bssw-f-source" name="bssw-f-vendor" class="form-control chosen-select">
+                                <option value=""></option>
+                                <option value="金山办公软件">金山办公软件</option>
+                                <option value="微软">微软</option>
+                            </select>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-info" id="bssw-f-addVendor">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -109,7 +129,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select id="bssw-f-source" required="required" class="form-control col-md-7 col-xs-12 chosen-select">
+                        <select id="bssw-f-source" name="bssw-f-source" required="required" class="form-control chosen-select">
                             <option value=""></option>
                             <option value="国内">国内</option>
                             <option value="国外">国外</option>
@@ -121,7 +141,7 @@
                         <span class="unrequired"></span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="bssw-f-distributeDate" class="form-control col-md-7 col-xs-12 date-picker" />
+                        <input type="text" id="bssw-f-distributeDate" class="form-control date-picker" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -129,7 +149,7 @@
                         <span class="unrequired"></span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select id="bssw-f-architecture" class="form-control col-md-7 col-xs-12 chosen-select">
+                        <select id="bssw-f-architecture" name="bssw-f-architecture" class="form-control chosen-select">
                             <option value=""></option>
                             <option value="B/S">B/S</option>
                             <option value="C/S">C/S</option>
@@ -163,7 +183,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
     <script src="../static/pages/baseExample1_form.js"></script>

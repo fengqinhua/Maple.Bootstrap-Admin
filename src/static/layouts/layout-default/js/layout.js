@@ -219,29 +219,8 @@ var Layout = function () {
         maple.progress.startPageLoading();
 
         //执行页面加载
-        loadPageInfo(url, function (data, dataType) {
-            if (dataType === "remote") {
-                try {
-                    var REG_BODY = /<body[^>]*>([\s\S]*)<\/body>/;
-                    var temps = REG_BODY.exec(data);
-                    if (temps && temps.length === 2) {
-                        $myPageContent.html(temps[1]);
-                    } else {
-                        $myPageContent.html($("<div>").html(data).find("#pagecontent").html());
-                    }
-                } catch (e) {
-                    if (debug) console.warn("Page data has error: ", {
-                        content: data,
-                        error: e
-                    });
-                    maple.msg.error((e && e.message) ? e.message : "发生未处理的异常", "系统提示");
-                }
-            } else if (dataType === "error") {
-                $myPageContent.html(pageLoadErrorMsg);
-            } else {
-                $myPageContent.html("???");
-            }
-
+        loadPageFromRemote(url, function (data, dataType) {
+            $myPageContent.html(data);
             scrollPageTo();
             handlePageLoad();
         }, 200);
@@ -300,23 +279,36 @@ var Layout = function () {
     };
 
     //加载页面并执行后处理
-    var loadPageInfo = function (url, callback, delayLoadRemote) {
+    var loadPageFromRemote = function (url, callback, delayLoadRemote) {
         var loadFromRemote = function () {
             $.ajax({
                 url: url,
                 type: "GET",
                 dataType: "html",
                 success: function (data) {
-                    if (data !== null) {
-                        callback(data, "remote");
-                    } else {
-                        if (debug) console.log("Failed load pageinfo from url " + url);
-                        callback(null, "error");
+                    if(data === null) callback(pageLoadErrorMsg, "error");
+
+                    try {
+                        var REG_BODY = /<body[^>]*>([\s\S]*)<\/body>/;
+                        var temps = REG_BODY.exec(data);
+                        if (temps && temps.length === 2) {
+                            callback(temps[1], "remote");
+                        } else {
+                            callback(data, "remote");
+                        }
+                    } catch (e) {
+                        if (debug) console.warn("Page data has error: ", {
+                            content: data,
+                            error: e
+                        });
+
+                        maple.msg.error((e && e.message) ? e.message : "发生未处理的异常", "系统提示");
+                        callback(pageLoadErrorMsg, "error");
                     }
                 },
                 error: function () {
                     if (debug) console.log("Failed load pageinfo from url " + url);
-                    callback(null, "error");
+                    callback(pageLoadErrorMsg, "error");
                 }
             });
         }
@@ -346,12 +338,12 @@ var Layout = function () {
             switchTheme(); //初始化皮肤 
         },
         setDefalutHomePageUrl: function (url) {
-            if(url){
+            if (url) {
                 defalutHomePageUrl = url;
             }
         },
         setApi_identity_info: function (url) {
-            if(url){
+            if (url) {
                 api_identity_info = url;
             }
         },
@@ -362,7 +354,8 @@ var Layout = function () {
             scrollPageTo();
         },
         openModule: openModule,
-        refrashModule: refrashModule
+        refrashModule: refrashModule,
+        loadPageFromRemote: loadPageFromRemote
     };
 }();
 

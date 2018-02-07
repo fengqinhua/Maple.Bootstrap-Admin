@@ -167,12 +167,17 @@ var baseExample1 = function () {
         });
 
         $("#bssw-export").on("click", function () {
-            alert("导出");
+            exportConfirm();
         });
 
         $("#bssw-import").on("click", function () {
             alert("导入");
         });
+        // //初始化菜单
+        // $('input.flat').iCheck({
+        //     checkboxClass: 'icheckbox_square-grey',
+        //     radioClass: 'iradio_square-grey'
+        // });
     };
 
     //保存页面状态
@@ -185,24 +190,86 @@ var baseExample1 = function () {
 
     //新增或修改
     var addOrEdit = function (pkey) {
-        //跳转页面前，保存当前页面状态，再执行页面打开
-        savePageStatu();
-
-        var params = pkey ? ("?pkey=" + pkey) : "";
+        var params = "";
+        if (pkey) {
+            //如果是编辑记录，那么跳转页面前，保存当前页面状态，再执行页面打开
+            savePageStatu();
+            params = "?pkey=" + pkey;
+        }
         Layout.openModule("#../templates/page-baseExample1-form.html" + params);
     };
 
     //设置规则
     var setRules = function (pkey) {
-        //跳转页面前，保存当前页面状态，再执行页面打开
-        savePageStatu();
-        
-        alert("规则设置" + pkey);
+        if (pkey) {
+            //跳转页面前，保存当前页面状态，再执行页面打开
+            savePageStatu();
+            alert("规则设置" + pkey);
+        } else {
+            maple.msg.error("参数错误！");
+        }
+
+
     };
 
     //删除
     var delComfirm = function (pkey) {
-        alert("删除" + pkey);
+        maple.msg.clear();
+        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
+            message: " 您确定要删除当前选中的数据 ?",
+            callback: function (result) {
+                if(result){
+                    maple.progress.blockUI();
+                    $.ajax({
+                        type: 'get',//建议使用post
+                        dataType: "json",
+                        url: "../api/deleteRequest.json",
+                        data: { key: pkey },
+                        cache: false,
+                        async: true,
+                        success: function (res) {
+                            maple.progress.unblockUI();
+                            if (res && res.code && res.code == "200" && res.data) {
+                                maple.msg.success("成功删除一条记录!");
+                                refreshTable();//刷新表格
+                            } else {
+                                maple.msg.error(res.msg ? res.msg : "删除失败!");
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            maple.progress.unblockUI();
+                            maple.msg.error("删除失败!");
+                        }
+                    });
+                }
+            }
+        });
+        BootstrapDialog.confirm(opts);
+    };
+
+    //导出确认
+    var exportConfirm = function () {
+        maple.msg.clear();
+        var $temp = $('<div></div>');
+        $temp.append($("#bssw-export-select").html());
+        $temp.find('input.flat').iCheck({
+            checkboxClass: 'icheckbox_square-grey',
+            radioClass: 'iradio_square-grey'
+        });
+
+        var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
+            message: $temp,
+            size: BootstrapDialog.SIZE_NORMAL,
+            callback: function (result) {
+                if (result) {
+                    var data = maple.form.serialize($temp);  
+                    if(data){
+                        alert(data["bssw-exporttype"]);
+                    }
+                }
+            }
+        });
+        BootstrapDialog.confirm(opts);
     };
 
     return {
@@ -213,11 +280,9 @@ var baseExample1 = function () {
                 pagedata = maple.store.pageGet("pagedata");
                 maple.store.pageRemove("pagedata");
             }
-
             //初始化  
             bindPageElement(pagedata);
             initTable(pagedata);
-
         },
         refreshTable: refreshTable,
         addOrEdit: addOrEdit,

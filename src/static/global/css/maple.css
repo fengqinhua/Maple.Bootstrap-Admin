@@ -292,4 +292,23 @@
        line-height: 20px;
        vertical-align: middle;
    }
- 
+
+   /* input-group 和  chosen 的样式兼容 */
+
+   .chosen-container-single .chosen-single {
+       height: 38px;
+       line-height: 38px;
+   }
+
+   .input-group .chosen-single {
+       height: 38px;
+       line-height: 38px;
+       border-top-right-radius: 0px;
+       border-bottom-right-radius: 0px;
+   }
+
+   /* 验证 */
+
+   .form-horizontal .validator-span {
+       padding-top: 2px;
+   }
