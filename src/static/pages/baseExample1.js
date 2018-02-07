@@ -15,7 +15,7 @@ var baseExample1 = function () {
     var initTable = function (lastQueryParams) {
         var options = $.extend(true, plugOpts.getDatatableDefaultOptions(), {
             method: 'get', //请求方式（*）
-            url: "../api/baseExampleInfo.json", //请求后台的URL（*）
+            url: maple.getRootPath() + "api/baseExampleInfo.json", //请求后台的URL（*）
             toolbar: "#bssw-toolbar", //工具按钮用哪个容器
             queryParams: queryParams, //传递参数（*）
             uniqueId: "ID", //每一行的唯一标识，一般为主键列 
@@ -196,7 +196,7 @@ var baseExample1 = function () {
             savePageStatu();
             params = "?pkey=" + pkey;
         }
-        Layout.openModule("#../templates/page-baseExample1-form.html" + params);
+        Layout.openModule("#" + maple.getRootPath() + "templates/page-baseExample1-form.html" + params);
     };
 
     //设置规则
@@ -218,12 +218,12 @@ var baseExample1 = function () {
         var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
             message: " 您确定要删除当前选中的数据 ?",
             callback: function (result) {
-                if(result){
+                if (result) {
                     maple.progress.blockUI();
                     $.ajax({
                         type: 'get',//建议使用post
                         dataType: "json",
-                        url: "../api/deleteRequest.json",
+                        url: maple.getRootPath() + "api/deleteRequest.json",
                         data: { key: pkey },
                         cache: false,
                         async: true,
@@ -262,8 +262,8 @@ var baseExample1 = function () {
             size: BootstrapDialog.SIZE_NORMAL,
             callback: function (result) {
                 if (result) {
-                    var data = maple.form.serialize($temp);  
-                    if(data){
+                    var data = maple.form.serialize($temp);
+                    if (data) {
                         alert(data["bssw-exporttype"]);
                     }
                 }

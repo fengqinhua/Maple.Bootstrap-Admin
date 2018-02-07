@@ -7,15 +7,15 @@
 
 .tree-menu li.active>a {
     color: #fff;
-    background-color: #2fa4e7;
-    border-color: #2fa4e7; 
+    background-color: #d6220e;
+    border-color: #d6220e; 
 }
 
 
 /* nprogress */
 
 #nprogress .bar {
-    background: #fff;
+    background: #d6220e;
 }
 
 #nprogress .peg {
@@ -32,26 +32,29 @@
 
 /* bootstrap-table */
 .bootstrap-table a.bnt  {
-    color: #29e; 
+    color: #d6220e; 
     text-decoration: none;
     outline: none;
     cursor:pointer;
 }
 .bootstrap-table .bnt a:hover,a:focus {
-    color: #29e;
+    color: #e56f62;
     outline: none;
 }
- 
+
+
+
+
 .x_title h2 { 
-    color:#2fa4e7;
+    color:#555;
     font-family:'Microsoft YaHei';
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-group.open .dropdown-toggle.btn-primary {
-    background-color:#86caf1!important;
+    background-color:#86caf1;
     border:#2196f3;
-    padding:8px 13px 9px 13px;
+    padding:9px 13px 10px 13px;
 }
 .chosen-container .chosen-results li.highlighted {
-    background-color:#7ac4ef;
+    background-color:#e56f62;
 }

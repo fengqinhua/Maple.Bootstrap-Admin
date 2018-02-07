@@ -2,19 +2,21 @@
 .tree-menu li>a:hover,
 .tree-menu li>a:active,
 .tree-menu li>a:focus {
-    color: #555;
+    /*color: #157ab5;*/
+    color:#666;
 }
 
 .tree-menu li.active>a {
     color: #fff;
-    background-color: #2fa4e7;
-    border-color: #2fa4e7; 
+    background-color: #333;
+    border-color: #333; 
 }
 
 
 /* nprogress */
 
 #nprogress .bar {
+    /*background: #dd5600;*/
     background: #fff;
 }
 
@@ -32,7 +34,8 @@
 
 /* bootstrap-table */
 .bootstrap-table a.bnt  {
-    color: #29e; 
+    /*color: #29e;*/ 
+    color:#2fa4e7;
     text-decoration: none;
     outline: none;
     cursor:pointer;
@@ -41,17 +44,30 @@
     color: #29e;
     outline: none;
 }
- 
-.x_title h2 { 
-    color:#2fa4e7;
-    font-family:'Microsoft YaHei';
+
+/* bootstrap-table-fonthover */
+.btn-primary {
+    background-color:#333;
+    border-color:#333;
+}
+
+a { 
+    color:#333;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-group.open .dropdown-toggle.btn-primary {
-    background-color:#86caf1!important;
-    border:#2196f3;
-    padding:8px 13px 9px 13px;
+    background-color:#666;
+    border-color:#666;
 }
+a:hover, a:focus {
+    color:#666;
+}
+
 .chosen-container .chosen-results li.highlighted {
-    background-color:#7ac4ef;
+    background-color:#999;
+}
+
+.x_title h2 { 
+    color:#333;
+    font-family:'Microsoft YaHei';
 }

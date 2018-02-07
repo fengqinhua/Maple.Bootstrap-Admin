@@ -49,7 +49,7 @@ var baseExample1_form = function () {
             comeBack();
         });
         $("#bssw-f-addVendor").on("click", function () {
-            addVendor();
+            baseVendorPlug.addVendorModal();
         });
 
     };
@@ -66,7 +66,7 @@ var baseExample1_form = function () {
             $.ajax(
                 {
                     type: "get",
-                    url: "../api/checkSoftwareNo.json",
+                    url: maple.getRootPath() + "api/checkSoftwareNo.json",
                     dataType: "json",
                     cache: false,
                     async: false,
@@ -94,7 +94,7 @@ var baseExample1_form = function () {
             $.ajax(
                 {
                     type: "get",
-                    url: "../api/checkSoftwareName.json",
+                    url: maple.getRootPath() + "/api/checkSoftwareName.json",
                     dataType: "json",
                     cache: false,
                     async: false,
@@ -112,7 +112,7 @@ var baseExample1_form = function () {
                 });
             return result;
         }, "该软件名称或版本已经存在");
-        
+
         var opts = $.extend(true, plugOpts.getValidationDefaultOptions(), {
             rules: {
                 "bssw-f-softwareNo": {
@@ -159,7 +159,7 @@ var baseExample1_form = function () {
                 type: 'get',//应该是POST
                 dataType: "json",
                 contentType: "application/x-www-form-urlencoded",
-                url: "../api/saveRequest.json",
+                url: maple.getRootPath() + "api/saveRequest.json",
                 data: formValues,//JSON.stringify(formValues),
                 cache: false,
                 async: true,
@@ -168,9 +168,9 @@ var baseExample1_form = function () {
                     if (res && res.code && res.code == "200" && res.result) {
                         maple.msg.success("保存成功!");
                         if (isContinue) {
-                            Layout.openModule("#../templates/page-baseExample1-form.html");
+                            Layout.openModule("#" + maple.getRootPath() + "templates/page-baseExample1-form.html");
                         } else {
-                            Layout.openModule("#../templates/page-baseExample1.html");
+                            Layout.openModule("#" + maple.getRootPath() + "templates/page-baseExample1.html");
                         }
                     } else {
                         maple.msg.error(res.msg ? res.msg : "保存失败!");
@@ -190,34 +190,10 @@ var baseExample1_form = function () {
 
     //返回
     var comeBack = function () {
-        Layout.openModule("#../templates/page-baseExample1.html");
+        Layout.openModule("#" + maple.getRootPath() + "templates/page-baseExample1.html");
     };
 
-    //添加供应商
-    var addVendor = function () {
-        maple.msg.clear();
-        maple.progress.blockUI();
-        Layout.loadPageFromRemote("../templates/page-baseExample1-form2.html", function (data, dataType) {
-            maple.progress.unblockUI();
-            var $temp = $('<div></div>');
-            $temp.append(data);
-            var opts = $.extend(true, plugOpts.getDialogConfirmBoxOpts(), {
-                title:"新建供应商",
-                message: $temp,
-                size: BootstrapDialog.SIZE_NORMAL,
-                callback: function (result) {
-                    if (result) {
-                        var data = maple.form.serialize($temp);
-                        if (data) {
-                            alert(data["sgys-f-fax"]);
-                        }
-                    }
-                }
-            });
-            BootstrapDialog.confirm(opts);
-        }, 200);
 
-    };
 
     return {
         init: function () {

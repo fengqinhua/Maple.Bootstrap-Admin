@@ -3,9 +3,10 @@
 **/
 ;
 var Layout = function () {
-    var defalutHomePageUrl = "#../templates/page-home.html",
+    var defalutHomePageUrl = "#" + maple.getRootPath() + "templates/page-home.html",
         pageLoadErrorMsg = "<div class=\"error-text\"><i class=\"glyphicon glyphicon-exclamation-sign\"></i>加载失败，请检查网络重试,或者联系系统管理员。</div>",
-        api_identity_info = "../api/IdentityInfo.json",
+        api_identity_info = maple.getRootPath() + "api/IdentityInfo.json",
+        currentTheme = "blue",
         data_identity_info, //当前用户身份信息
         $body, //body
         $myPageContent, //PageContent
@@ -18,14 +19,15 @@ var Layout = function () {
 
     // 设置皮肤
     var switchTheme = function (theme) {
-        var defaultTheme = "blue";
         if (theme == null) {
-            theme = $.cookie("mapleCurrentTheme") == null ? defaultTheme : $.cookie("mapleCurrentTheme");
+            theme = $.cookie("mapleCurrentTheme") == null ? currentTheme : $.cookie("mapleCurrentTheme");
         }
 
-        if (theme != defaultTheme) {
+        if (theme != currentTheme) {
             $("#bootstrap-theme").attr("href", "../static/global/plugins/bootstrap/theme/bootstrap-" + theme + ".min.css");
             $("#maple-theme").attr("href", "../static/layouts/layout-default/css/themes/" + theme + ".css");
+            currentTheme = theme;
+            $.cookie('mapleCurrentTheme', currentTheme, { path: '/', expires: 30 });
         }
     };
 
@@ -327,6 +329,7 @@ var Layout = function () {
 
     return {
         init: function () {
+            switchTheme(); //初始化皮肤 
             $body = $("body");
             $myPageContent = $("#myPageContent");
             // maple.progress.UseNprogress({
@@ -335,7 +338,6 @@ var Layout = function () {
             checkSupportHashChange(); //检测浏览器是否支持HashChange事件
             handleUrlHashChange(); //检测浏览器HashChange事件
             loadHomePage(); //初始化首页信息   
-            switchTheme(); //初始化皮肤 
         },
         setDefalutHomePageUrl: function (url) {
             if (url) {

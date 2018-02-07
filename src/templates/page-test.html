@@ -31,7 +31,10 @@
     <h1>这是用于演示公用函数的页面！</h1>
     <h3> 0、设置皮肤 </h3>
     <input type="button" class="btn btn-default" value="蓝色" onClick="Layout.switchTheme('blue');" />
-    <input type="button" class="btn btn-default" value="灰色" onClick="Layout.switchTheme('blue');" />
+    <input type="button" class="btn btn-default" value="浅灰" onClick="Layout.switchTheme('paper');" />
+    <input type="button" class="btn btn-default" value="灰黑" onClick="Layout.switchTheme('Simplex');" />
+    <input type="button" class="btn btn-default" value="红色" onClick="Layout.switchTheme('united');" />
+    <input type="button" class="btn btn-default" value="黑色" onClick="Layout.switchTheme('yeti');" />
     <h3> 1、浏览器，视窗，URL相关的基础函数 </h3>
     <input type="button" class="btn btn-default" value="生成GUID" onClick="alert(maple.newGuid());" />
     <input type="button" class="btn btn-default" value="获取当前浏览器信息" onClick="getAgent();" />
@@ -197,7 +200,7 @@
     <h3> *、其它函数 </h3>
     <input type="button" class="btn btn-default" value="滚动至当前按钮所在的位置下方20px" onClick="Layout.scrollPageTo($(this),20);" />
     <input type="button" class="btn btn-default" value="打开首页" onClick="Layout.openModule();" />
-    <input type="button" class="btn btn-default" value="打开列表页A" onClick="Layout.openModule('#../templates/page-list.html');"
+    <input type="button" class="btn btn-default" value="打开列表页A" onClick="Layout.openModule('#'+ maple.getRootPath() +'templates/page-list.html');"
     />
     <br/>
     <h3> *、页面布局示例 </h3>

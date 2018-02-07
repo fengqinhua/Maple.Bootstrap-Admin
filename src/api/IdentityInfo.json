@@ -38,12 +38,12 @@
                 {
                     "id": "404",
                     "title": "错误404",
-                    "url": "page-404.html"
+                    "url": "templates/page-404.html"
                 },
                 {
                     "id": "500",
                     "title": "错误500",
-                    "url": "page-500.html"
+                    "url": "templates/page-500.html"
                 },
                 {
                     "id": "other",
