@@ -101,7 +101,7 @@ baseVendorChooseOrAdd.prototype.show = function (callback) {
                 },
                 {
                     label: '确定',
-                    cssClass: 'btn-warning',
+                    cssClass: 'btn-primary',
                     action: function(dialogItself){
                         that._saveData(function(data){
                             if(data){
