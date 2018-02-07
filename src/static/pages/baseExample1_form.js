@@ -49,19 +49,21 @@ var baseExample1_form = function () {
             comeBack();
         });
         $("#bssw-f-addVendor").on("click", function () {
-            baseVendorPlug.addVendorModal();
+            var vendor = new baseVendorChooseOrAdd();
+            vendor.show(function(data){
+                alert(data);
+                $("#bssw-f-source").val(data);
+            });
         });
 
     };
 
     //设置验证规则
     var handelInitValidate = function () {
-
         //验证采购单号是否重复
         $.validator.addMethod("CheckSoftwareNo", function (value, element) {
             var key = $("#hf_PK").val();
             var softwareNo = $("#bssw-f-softwareNo").val();
-
             var result = false;
             $.ajax(
                 {
@@ -84,34 +86,6 @@ var baseExample1_form = function () {
                 });
             return result;
         }, "该软件编号已经存在");
-        //验证软件名称和编码是否重复
-        $.validator.addMethod("CheckSoftwareName", function (value, element) {
-            var key = $("#hf_PK").val();
-            var softwareName = $("#bssw-f-name").val();
-            var softwareVersionName = $("#bssw-f-versionName").val();
-
-            var result = false;
-            $.ajax(
-                {
-                    type: "get",
-                    url: maple.getRootPath() + "/api/checkSoftwareName.json",
-                    dataType: "json",
-                    cache: false,
-                    async: false,
-                    data: { key: key, softwareName: softwareName, softwareVersionName: softwareVersionName },
-                    success: function (res) {
-                        if (res && res.code && res.code == "200") {
-                            result = res.result;
-                        } else {
-                            result = false;
-                        }
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        result = false;
-                    }
-                });
-            return result;
-        }, "该软件名称或版本已经存在");
 
         var opts = $.extend(true, plugOpts.getValidationDefaultOptions(), {
             rules: {
@@ -122,7 +96,31 @@ var baseExample1_form = function () {
                 },
                 "bssw-f-name": {
                     required: true,
-                    CheckSoftwareName: true
+                    remote: {
+                        type: "get",
+                        url: maple.getRootPath() + "/api/checkSoftwareName.json",
+                        dataType: "json",
+                        data: { 
+                            key: $("#hf_PK").val(), 
+                            softwareName: $("#bssw-f-name").val(), 
+                            softwareVersionName: $("#bssw-f-versionName").val() 
+                        },
+                        dataFilter: function (data, type) {
+                            try {
+                                var res = $.parseJSON(data);
+                                if (res && res.code && res.code == "200") {
+                                    return res.result;
+                                } else {
+                                    return false;
+                                }
+                            } catch (e) {
+                                console.warn("jquer validate remote dataFilter has error: ", {
+                                    error: e
+                                });
+                                return false;
+                            }
+                        }
+                    }
                 },
                 "bssw-f-classify": {
                     required: true
@@ -141,6 +139,11 @@ var baseExample1_form = function () {
                 },
                 "bssw-f-isscan": {
                     required: true
+                }
+            },
+            messages: {
+                "bssw-f-name": {
+                    remote: "该软件名称或版本已经存在"
                 }
             }
         });
